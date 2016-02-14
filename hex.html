@@ -1,0 +1,122 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Playing with hexagons</title>
+    <script type="text/javascript">
+    (() => {
+      "use strict";
+
+      let hexagon = {
+        area(radius) {
+          return 1.5 * Math.sqrt(3) * radius * radius;
+        },
+        corners(center, radius) {
+          const H_OFFSET = Math.sqrt(3) * 0.5 * radius;
+          const V_OFFSET = radius / 2;
+          return [
+            {x: center.x - H_OFFSET, y: center.y - V_OFFSET},
+            {x: center.x, y: center.y - radius},
+            {x: center.x + H_OFFSET, y: center.y - V_OFFSET},
+            {x: center.x + H_OFFSET, y: center.y + V_OFFSET},
+            {x: center.x, y: center.y + radius},
+            {x: center.x - H_OFFSET, y: center.y + V_OFFSET}
+          ];
+        },
+        draw(center, radius, ctx, style) {
+          const CORNERS = hexagon.corners(center, radius);
+          ctx.strokeStyle = style;
+          ctx.beginPath();
+          ctx.moveTo(CORNERS[5].x, CORNERS[5].y);
+          for (let corner of CORNERS) {
+            ctx.lineTo(corner.x, corner.y);
+          }
+          ctx.stroke();
+        }
+      }
+
+      hexagon.grid = {
+        pixelWidth(grid) {
+          return Math.sqrt(3) * grid.radius * grid.width;
+        },
+        pixelHeight(grid) {
+          return (3 * grid.height - 1) * grid.radius;
+        },
+        pixelToAxis(grid, x, y) {
+          const WIDTH_NUM = Math.floor(x / (Math.sqrt(3) * 0.5 * grid.radius));
+          const HEIGHT_NUM = Math.floor(y / (0.5 * grid.radius));
+          const HEX_Y = Math.floor(HEIGHT_NUM / 3);
+          const HEX_X = Math.floor(0.5 * (WIDTH_NUM - HEX_Y));
+          return {x: HEX_X, y: HEX_Y};
+        },
+        axisToPixel(grid, x, y) {
+          const PIX_Y = grid.radius + 1.5 * grid.radius * y;
+          const PIX_X = (PIX_Y - grid.radius) / Math.sqrt(3) + Math.sqrt(3) * grid.radius * (x + 0.5);
+          return {x: PIX_X, y: PIX_Y};
+        },
+        draw(grid, ctx, style) {
+          const HEX_WIDTH = Math.sqrt(3) * grid.radius;
+          const HEX_HEIGHT = 2 * grid.radius;
+          const LAST_Y = (0.5 + 3 * grid.height) * grid.radius;
+          let x = 0;
+          ctx.strokeStyle = style;
+          ctx.beginPath();
+          for (let y = 0.5 * grid.radius; y < LAST_Y; y += 1.5 * HEX_HEIGHT) {
+            for (x = 0; x < HEX_WIDTH * grid.width; x += HEX_WIDTH) {
+              ctx.moveTo(x, y + grid.radius);
+              ctx.lineTo(x, y);
+              ctx.lineTo(x + 0.5 * HEX_WIDTH, y - 0.5 * grid.radius);
+              ctx.lineTo(x + HEX_WIDTH, y);
+              ctx.moveTo(x, y + grid.radius);
+              ctx.lineTo(x + 0.5 * HEX_WIDTH, y + 1.5 * grid.radius);
+              if (y < LAST_Y - 1.5 * HEX_HEIGHT) {
+                ctx.lineTo(x + 0.5 * HEX_WIDTH, y + 2.5 * grid.radius);
+                ctx.moveTo(x + 0.5 * HEX_WIDTH, y + 1.5 * grid.radius);
+              }
+              ctx.lineTo(x + HEX_WIDTH, y + grid.radius);
+            }
+            ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+      };
+
+      window.onload = (e) => {
+        const SCENE_WIDTH = 800;
+        const SCENE_HEIGHT = 600;
+        const SCENE = document.getElementById("scene");
+        const MOUSE_FIELD = document.getElementById("coord-mouse");
+        const HEX_FIELD = document.getElementById("coord-hex");
+        const CTX = SCENE.getContext("2d");
+        const GRID = {width: 14, height:6, radius: 32};
+
+        SCENE.width = SCENE_WIDTH;
+        SCENE.height = SCENE_HEIGHT;
+
+        CTX.fillStyle = "rgb(0, 0, 0)";
+        CTX.fillRect(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
+
+        hexagon.grid.draw(GRID, CTX, "rgb(0, 0, 255)");
+
+        SCENE.onmousemove = (e) => {
+          const hexCoord = hexagon.grid.pixelToAxis(GRID, e.offsetX, e.offsetY);
+          const center = hexagon.grid.axisToPixel(GRID, hexCoord.x, hexCoord.y);
+          hexagon.draw(center, GRID.radius, CTX, "rgb(0, 255, 0)");
+          MOUSE_FIELD.value = "x: " + e.offsetX + ", y: " + e.offsetY;
+          HEX_FIELD.value = "x: " + hexCoord.x + ", y: " + hexCoord.y;
+        }
+      };
+    })();
+    </script>
+  </head>
+  <body>
+    <canvas id="scene" width="800" height="600">
+      This page is useless without canvas.
+    </canvas>
+    <form id="coordinates">
+    <label for="coord-mouse">Pixel Coordinates</label>
+    <input id="coord-mouse" type="text" />
+    <label for="coord-hex">Hex Coordinates</label>
+    <input id="coord-hex" type="text" />
+  </form>
+  </body>
+</html>
