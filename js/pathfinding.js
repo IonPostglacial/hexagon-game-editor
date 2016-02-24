@@ -59,12 +59,12 @@ PF = (() => {
         currentPosition = frontier.dequeue();
         if (currentPosition.x === goal.x && currentPosition.y === goal.y) break;
         let neighbors = getNeighbors(currentPosition, isWalkable);
-        for (var i in neighbors) {
-          let f = nodes.get(hashP(currentPosition)).f + distance(currentPosition, neighbors[i]);
-          let g = distance(neighbors[i], goal);
-          if (!nodes.has(hashP(neighbors[i])) || f < nodes.get(hashP(neighbors[i])).f) {
-            nodes.set(hashP(neighbors[i]), {cameFrom: currentPosition, f: f, g: g, h: f + g});
-            frontier.queue(neighbors[i]);
+        for (let neighbor of neighbors) {
+          let f = nodes.get(hashP(currentPosition)).f + distance(currentPosition, neighbor);
+          let g = distance(neighbor, goal);
+          if (!nodes.has(hashP(neighbor)) || f < nodes.get(hashP(neighbor)).f) {
+            nodes.set(hashP(neighbor), {cameFrom: currentPosition, f: f, g: g, h: f + g});
+            frontier.queue(neighbor);
           }
         }
       }
