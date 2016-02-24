@@ -17,7 +17,7 @@ hexagon = (() => {
         {x: center.x - H_OFFSET, y: center.y + V_OFFSET}
       ];
     },
-    draw(center, radius, ctx, style) {
+    draw(ctx, center, radius, style) {
       const CORNERS = hexagon.corners(center, radius);
       ctx.strokeStyle = style;
       ctx.beginPath();
@@ -48,7 +48,7 @@ hexagon = (() => {
       const PIX_X = (PIX_Y - grid.radius) / Math.sqrt(3) + Math.sqrt(3) * grid.radius * (x + 0.5);
       return {x: PIX_X, y: PIX_Y};
     },
-    draw(grid, ctx, style) {
+    draw(ctx, grid, style) {
       const HEX_WIDTH = Math.sqrt(3) * grid.radius;
       const HEX_HEIGHT = 2 * grid.radius;
       const LAST_Y = (0.5 + 3 * grid.height) * grid.radius;

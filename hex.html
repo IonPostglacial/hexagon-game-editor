@@ -5,46 +5,42 @@
     <script src="js/priority-queue.js"></script>
     <script src="js/pathfinding.js"></script>
     <script src="js/hexagon.js"></script>
-    <script>
-    (() => {
-      "use strict";
+    <script> (() => {
+    "use strict";
 
-      window.onload = (e) => {
-        const SCENE_WIDTH = 800;
-        const SCENE_HEIGHT = 600;
-        const SCENE = document.getElementById("scene");
-        const MOUSE_FIELD = document.getElementById("coord-mouse");
-        const HEX_FIELD = document.getElementById("coord-hex");
-        const CTX = SCENE.getContext("2d");
-        const GRID = {width: 14, height:6, radius: 32};
-        let firstStep = {x: 0, y: 0};
-        let lastStep = {x: 0, y: 0};
-        let obstacles = [{x: 5, y: 5}];
-        let path = [];
+    window.onload = (e) => {
+      const SCENE_WIDTH = 800;
+      const SCENE_HEIGHT = 600;
+      const $ = document.querySelector.bind(document);
+      const CTX = Object.assign($('#scene'), {width: SCENE_WIDTH, height: SCENE_HEIGHT}).getContext("2d");
+      const GRID = {width: 14, height:6, radius: 32};
+      let firstStep = {x: 0, y: 0};
+      let lastStep = {x: 0, y: 0};
+      let obstacles = [{x: 5, y: 5}];
+      let path = [];
 
-        SCENE.width = SCENE_WIDTH;
-        SCENE.height = SCENE_HEIGHT;
-
-        function drawScene() {
-          CTX.fillStyle = "rgb(0, 0, 0)";
-          CTX.fillRect(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
-          hexagon.grid.draw(GRID, CTX, "rgb(0, 0, 255)");
-          for (let obstacle of obstacles) {
-            const obstacleCoord = hexagon.grid.axisToPixel(GRID, obstacle.x, obstacle.y);
-            hexagon.draw(obstacleCoord, GRID.radius, CTX, "rgb(255, 255, 0)");
-          }
-          for (let step of path) {
-            const stepCoord = hexagon.grid.axisToPixel(GRID, step.x, step.y);
-            hexagon.draw(stepCoord, GRID.radius, CTX, "rgb(0, 255, 0)");
-          }
-          hexagon.draw(hexagon.grid.axisToPixel(GRID, firstStep.x, firstStep.y), GRID.radius, CTX, "rgb(255, 0, 0)");
-          hexagon.draw(hexagon.grid.axisToPixel(GRID, lastStep.x, lastStep.y), GRID.radius, CTX, "rgb(255, 0, 0)");
+      function drawScene() {
+        CTX.fillStyle = "rgb(0, 0, 0)";
+        CTX.fillRect(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
+        hexagon.grid.draw(CTX, GRID, "rgb(0, 0, 255)");
+        for (let obstacle of obstacles) {
+          const obstacleCoord = hexagon.grid.axisToPixel(GRID, obstacle.x, obstacle.y);
+          hexagon.draw(CTX, obstacleCoord, GRID.radius, "rgb(255, 255, 0)");
         }
+        for (let step of path) {
+          const stepCoord = hexagon.grid.axisToPixel(GRID, step.x, step.y);
+          hexagon.draw(CTX, stepCoord, GRID.radius, "rgb(0, 255, 0)");
+        }
+        hexagon.draw(CTX, hexagon.grid.axisToPixel(GRID, firstStep.x, firstStep.y), GRID.radius, "rgb(255, 0, 0)");
+        hexagon.draw(CTX, hexagon.grid.axisToPixel(GRID, lastStep.x, lastStep.y), GRID.radius, "rgb(255, 0, 0)");
+      }
 
-        drawScene();
+      drawScene();
 
-        SCENE.onmousemove = (e) => {
-          lastStep = hexagon.grid.pixelToAxis(GRID, e.offsetX, e.offsetY);
+      $('#scene').onmousemove = (e) => {
+        const currentCoordinates = hexagon.grid.pixelToAxis(GRID, e.offsetX, e.offsetY);
+        if (lastStep.x !== currentCoordinates.x || lastStep. y !== currentCoordinates.y) {
+          lastStep = currentCoordinates;
           path = PF.shortestPathBetween(firstStep, lastStep, PF.hexDistance, (pos) => {
             const maxDimension = Math.max(GRID.width, GRID.height * 2 - 1);
             if (pos.x < -maxDimension || pos.x > maxDimension || pos.y < 0 || pos.y > GRID.height * 2 - 1) {
@@ -57,28 +53,45 @@
             }
             return true
           });
-          drawScene();
-          MOUSE_FIELD.value = "x: " + e.offsetX + ", y: " + e.offsetY;
-          HEX_FIELD.value = "x: " + lastStep.x + ", y: " + lastStep.y;
         }
-
-        SCENE.onclick = (e) => {
-          const obstacle = hexagon.grid.pixelToAxis(GRID, e.offsetX, e.offsetY);
-          obstacles.push(obstacle);
-        }
+        drawScene();
+        $('#coord-mouse').value = "x: " + e.offsetX + ", y: " + e.offsetY;
+        $('#coord-hex').value = "x: " + lastStep.x + ", y: " + lastStep.y;
       };
-    })();
-    </script>
+
+      $('#scene').onclick = (e) => {
+        const obstacle = hexagon.grid.pixelToAxis(GRID, e.offsetX, e.offsetY);
+        obstacles.push(obstacle);
+      };
+
+      $('#uploaded').onchange = (e) => {
+        const READER = new FileReader();
+        READER.onload = (e) => {
+          alert(READER.result);
+          obstacles = JSON.parse(READER.result);
+        };
+        READER.readAsText($('#uploaded').files[0]);
+      };
+
+      $('#download-scene').onclick = (e) => {
+        $('#download-scene').href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(obstacles));
+        $('#download-scene').download = "scene.json";
+      };
+    };
+    })(); </script>
   </head>
   <body>
     <canvas id="scene" width="800" height="600">
       This page is useless without canvas.
     </canvas>
-    <form id="coordinates">
+    <form id="editor">
     <label for="coord-mouse">Pixel Coordinates</label>
     <input id="coord-mouse" type="text" />
     <label for="coord-hex">Hex Coordinates</label>
-    <input id="coord-hex" type="text" />
+    <input id="coord-hex" type="text" /><br/>
+    <label for="uploaded">Upload your scene</label>
+    <input type="file" id="uploaded" />
   </form>
+  <a id="download-scene" href="#">Download current scene.</a>
   </body>
 </html>
