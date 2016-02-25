@@ -1,0 +1,51 @@
+#editor {
+  width: 800px;
+  background-color: #D8D8D8;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 12px;
+}
+
+#scene {
+  display: block;
+}
+
+.gauge-box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.gauge.start {
+  align-self: flex-start;
+}
+
+.gauge.end {
+  align-self: flex-end;
+}
+
+table.gauge {
+  display: inline-table;
+  border: 2px solid black;
+  border-style: solid;
+  border-collapse: collapse;
+  margin: 4px;
+}
+
+table.gauge td, table.gauge th {
+  padding: 2px;
+}
+
+table.gauge.numerical td {
+  border: 1px solid black;
+}
+
+table.gauge.numerical td {
+  background-color: white;
+  min-width: 30pt;
+  text-align: right;
+}
+
+table.gauge th {
+  background-color: #2196F3;
+  color: white;
+}

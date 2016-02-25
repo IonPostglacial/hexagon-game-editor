@@ -2,96 +2,33 @@
 <html>
   <head>
     <title>Playing with hexagons</title>
-    <script src="js/priority-queue.js"></script>
-    <script src="js/pathfinding.js"></script>
-    <script src="js/hexagon.js"></script>
-    <script> (() => {
-    "use strict";
-
-    window.onload = (e) => {
-      const SCENE_WIDTH = 800;
-      const SCENE_HEIGHT = 600;
-      const $ = document.querySelector.bind(document);
-      const CTX = Object.assign($('#scene'), {width: SCENE_WIDTH, height: SCENE_HEIGHT}).getContext("2d");
-      const GRID = {width: 14, height:6, radius: 32};
-      let firstStep = {x: 0, y: 0};
-      let lastStep = {x: 0, y: 0};
-      let obstacles = [{x: 5, y: 5}];
-      let path = [];
-
-      function drawScene() {
-        CTX.fillStyle = "rgb(0, 0, 0)";
-        CTX.fillRect(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
-        hexagon.grid.draw(CTX, GRID, "rgb(0, 0, 255)");
-        for (let obstacle of obstacles) {
-          const obstacleCoord = hexagon.grid.axisToPixel(GRID, obstacle.x, obstacle.y);
-          hexagon.draw(CTX, obstacleCoord, GRID.radius, "rgb(255, 255, 0)");
-        }
-        for (let step of path) {
-          const stepCoord = hexagon.grid.axisToPixel(GRID, step.x, step.y);
-          hexagon.draw(CTX, stepCoord, GRID.radius, "rgb(0, 255, 0)");
-        }
-        hexagon.draw(CTX, hexagon.grid.axisToPixel(GRID, firstStep.x, firstStep.y), GRID.radius, "rgb(255, 0, 0)");
-        hexagon.draw(CTX, hexagon.grid.axisToPixel(GRID, lastStep.x, lastStep.y), GRID.radius, "rgb(255, 0, 0)");
-      }
-
-      drawScene();
-
-      $('#scene').onmousemove = (e) => {
-        const currentCoordinates = hexagon.grid.pixelToAxis(GRID, e.offsetX, e.offsetY);
-        if (lastStep.x !== currentCoordinates.x || lastStep. y !== currentCoordinates.y) {
-          lastStep = currentCoordinates;
-          path = PF.shortestPathBetween(firstStep, lastStep, PF.hexDistance, (pos) => {
-            const maxDimension = Math.max(GRID.width, GRID.height * 2 - 1);
-            if (pos.x < -maxDimension || pos.x > maxDimension || pos.y < 0 || pos.y > GRID.height * 2 - 1) {
-              return false;
-            }
-            for (let obstacle of obstacles) {
-              if (pos.x === obstacle.x && pos.y === obstacle.y) {
-                return false;
-              }
-            }
-            return true
-          });
-        }
-        drawScene();
-        $('#coord-mouse').value = "x: " + e.offsetX + ", y: " + e.offsetY;
-        $('#coord-hex').value = "x: " + lastStep.x + ", y: " + lastStep.y;
-      };
-
-      $('#scene').onclick = (e) => {
-        const obstacle = hexagon.grid.pixelToAxis(GRID, e.offsetX, e.offsetY);
-        obstacles.push(obstacle);
-      };
-
-      $('#uploaded').onchange = (e) => {
-        const READER = new FileReader();
-        READER.onload = (e) => {
-          alert(READER.result);
-          obstacles = JSON.parse(READER.result);
-        };
-        READER.readAsText($('#uploaded').files[0]);
-      };
-
-      $('#download-scene').onclick = (e) => {
-        var blob = new Blob([JSON.stringify(obstacles)], {type : 'application/json'});
-        $('#download-scene').href = URL.createObjectURL(blob);
-      };
-    };
-    })(); </script>
+    <link href="style.css" rel="stylesheet">
+    <script src="lib/priority-queue.js"></script>
+    <script src="lib/pathfinding.js"></script>
+    <script src="lib/hexagon.js"></script>
+    <script src="js/mapeditor.js"></script>
+    <script src="js/download.js"></script>
   </head>
   <body>
-    <canvas id="scene" width="800" height="600">
-      This page is useless without canvas.
-    </canvas>
-    <form id="editor">
-    <label for="coord-mouse">Pixel Coordinates</label>
-    <input id="coord-mouse" type="text" />
-    <label for="coord-hex">Hex Coordinates</label>
-    <input id="coord-hex" type="text" /><br/>
-    <label for="uploaded">Upload your scene</label>
-    <input type="file" id="uploaded" />
-  </form>
-  <a id="download-scene" href="#" download>Download current scene.</a>
+    <div id="editor">
+      <canvas id="scene" width="800" height="600">
+        This page is useless without canvas.
+      </canvas>
+      <div class="gauge-box">
+        <table id="coord-mouse" class="numerical gauge start">
+          <caption>Pix Coordinates</caption>
+          <tr><th>x</th><td>0</td><th>y</th><td>0</td></tr>
+        </table>
+        <table id="coord-hex" class="numerical gauge end">
+          <caption>Hex Coordinates</caption>
+          <tr><th>x</th><td>0</td><th>y</th><td>0</td></tr>
+        </table>
+      </div>
+      <form id="obstacles">
+        <label for="uploaded">Load a stage</label>
+        <input type="file" id="uploaded" />
+      </form>
+      <a id="download-scene" href="#" download>Download current stage</a>
+    </div>
   </body>
 </html>
