@@ -74,8 +74,8 @@
       };
 
       $('#download-scene').onclick = (e) => {
-        $('#download-scene').href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(obstacles));
-        $('#download-scene').download = "scene.json";
+        var blob = new Blob([JSON.stringify(obstacles)], {type : 'application/json'});
+        $('#download-scene').href = URL.createObjectURL(blob);
       };
     };
     })(); </script>
@@ -92,6 +92,6 @@
     <label for="uploaded">Upload your scene</label>
     <input type="file" id="uploaded" />
   </form>
-  <a id="download-scene" href="#">Download current scene.</a>
+  <a id="download-scene" href="#" download>Download current scene.</a>
   </body>
 </html>
