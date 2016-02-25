@@ -41,7 +41,7 @@ table.gauge.numerical td {
 
 table.gauge.numerical td {
   background-color: white;
-  min-width: 30pt;
+  min-width: 3em;
   text-align: right;
 }
 
