@@ -8,27 +8,41 @@
     <script src="lib/hexagon.js"></script>
     <script src="js/mapeditor.js"></script>
     <script src="js/download.js"></script>
+    <script> window.onload = () => {
+      "use strict";
+
+      const $ = document.querySelector.bind(document);
+      const SCENE_WIDTH = 800;
+      const SCENE_HEIGHT = 600;
+      const GRID = {width: 14, height:6, radius: 32, obstacles: [{x: 5, y: 5}]};
+
+      initMapEditor(GRID, SCENE_WIDTH, SCENE_HEIGHT, $('#scene'), $('#coord-mouse'), $('#coord-hex'));
+      initDownload(GRID, $('#uploaded'), $('#upload-scene'), $('#download-scene'));
+    }; </script>
   </head>
   <body>
-    <div id="editor">
-      <canvas id="scene" width="800" height="600">
-        This page is useless without canvas.
-      </canvas>
-      <div class="gauge-box">
-        <table id="coord-mouse" class="numerical gauge start">
-          <caption>Pix Coordinates</caption>
-          <tr><th>x</th><td>0</td><th>y</th><td>0</td></tr>
-        </table>
-        <table id="coord-hex" class="numerical gauge end">
+    <canvas id="scene" width="800" height="600">
+      This page is useless without canvas.
+    </canvas>
+    <ul class="centered tool-box">
+      <li class="tool"><a class="btn" id="download-scene" href="#" download>Download current stage</a></li>
+      <li class="tool"><a class="btn" id="upload-scene" href="#">Load a stage</a></li>
+      <li class="tool">
+        <table id="coord-hex" class="tool numerical gauge">
           <caption>Hex Coordinates</caption>
           <tr><th>x</th><td>0</td><th>y</th><td>0</td></tr>
         </table>
-      </div>
-      <form id="obstacles">
-        <label for="uploaded">Load a stage</label>
-        <input type="file" id="uploaded" />
-      </form>
-      <a id="download-scene" href="#" download>Download current stage</a>
-    </div>
+      </li>
+      <li class="tool">
+        <table id="coord-mouse" class="tool numerical gauge">
+          <caption>Pix Coordinates</caption>
+          <tr><th>x</th><td>0</td><th>y</th><td>0</td></tr>
+        </table>
+      </li>
+    </ul>
+    <form id="hidden-form">
+      <input type="file" id="uploaded" />
+    </form>
+
   </body>
 </html>

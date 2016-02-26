@@ -1,26 +1,56 @@
-#editor {
-  width: 800px;
+body {
   background-color: #D8D8D8;
   margin-left: auto;
   margin-right: auto;
   padding: 12px;
+  width: 80%;
 }
 
 #scene {
   display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.gauge-box {
+#hidden-form {
+  display: none;
+}
+
+.tool-box {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  height: 64px;
 }
 
-.gauge.start {
-  align-self: flex-start;
+.tool-box.centered {
+  justify-content: center;
 }
 
-.gauge.end {
-  align-self: flex-end;
+ul.tool-box {
+  list-style-type: none;
+}
+
+.tool {
+  align-self: center;
+}
+
+.btn {
+  display: inline-block;
+  color: black;
+  padding: 8px;
+  border-radius: 4px;
+  background: rgb(210, 210, 210);
+  margin: 4px;
+  text-decoration: none;
+  border: 1px rgba(0, 0, 0, 0.33) solid;
+}
+
+.btn:hover {
+  background: rgb(215, 215, 215);
+}
+
+.btn:active {
+  background: rgb(205, 205, 205);
 }
 
 table.gauge {
