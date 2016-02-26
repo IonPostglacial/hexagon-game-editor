@@ -1,15 +1,19 @@
 function initMapEditor(grid, width, height, scene, coordMouse, coordHex) {
   "use strict";
 
+  const BACKGROUND = document.createElement('canvas');
   const CTX = Object.assign(scene, {width: width, height: height}).getContext("2d");
+  const BG_CTX = Object.assign(BACKGROUND, {width: width, height: height}).getContext('2d');
   let firstStep = {x: 0, y: 0};
   let lastStep = {x: 0, y: 0};
   let path = [];
 
+  BG_CTX.fillStyle = "rgb(0, 0, 0)";
+  BG_CTX.fillRect(0, 0, width, height);
+  hexagon.grid.draw(BG_CTX, grid, "rgb(0, 0, 255)");
+
   function drawScene() {
-    CTX.fillStyle = "rgb(0, 0, 0)";
-    CTX.fillRect(0, 0, width, height);
-    hexagon.grid.draw(CTX, grid, "rgb(0, 0, 255)");
+    CTX.drawImage(BACKGROUND, 0, 0);
     for (let obstacle of grid.obstacles) {
       const obstacleCoord = hexagon.grid.axisToPixel(grid, obstacle.x, obstacle.y);
       hexagon.draw(CTX, obstacleCoord, grid.radius, "rgb(255, 255, 0)");
@@ -40,8 +44,8 @@ function initMapEditor(grid, width, height, scene, coordMouse, coordHex) {
         }
         return true
       });
+      drawScene();
     }
-    drawScene();
     coordMouse.rows[0].cells[1].innerHTML = e.offsetX;
     coordMouse.rows[0].cells[3].innerHTML = e.offsetY;
     coordHex.rows[0].cells[1].innerHTML = lastStep.x;
