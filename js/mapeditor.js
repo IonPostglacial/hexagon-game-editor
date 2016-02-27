@@ -1,21 +1,26 @@
-function initMapEditor(grid, scene, coordMouse, coordHex) {
+function initMapEditor(grid, layers, background, scene, coordMouse, coordHex) {
   "use strict";
 
-  const BACKGROUND = document.createElement('canvas');
-  scene.width = BACKGROUND.width = hexagon.grid.pixelWidth(grid);
-  scene.height = BACKGROUND.height = hexagon.grid.pixelHeight(grid);
-  const CTX = scene.getContext("2d");
-  const BG_CTX = BACKGROUND.getContext('2d');
+  const SCENE_WIDTH = hexagon.grid.pixelWidth(grid);
+  const SCENE_HEIGHT = hexagon.grid.pixelHeight(grid);
+  layers.style.width = SCENE_WIDTH + "px";
+  layers.style.height = SCENE_HEIGHT + "px";
+  for (let i = 0; i < layers.children.length; i++) {
+    layers.children[i].width = SCENE_WIDTH;
+    layers.children[i].height = SCENE_HEIGHT;
+  }
+  const BG_CTX = layers.children[0].getContext('2d');
+  const CTX = layers.children[1].getContext("2d");
   let firstStep = {x: 0, y: 0};
   let lastStep = {x: 0, y: 0};
   let path = [];
 
   BG_CTX.fillStyle = "rgb(0, 0, 0)";
-  BG_CTX.fillRect(0, 0, scene.width, scene.height);
+  BG_CTX.fillRect(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
   hexagon.grid.draw(BG_CTX, grid, "rgb(0, 0, 255)");
 
   function drawScene() {
-    CTX.drawImage(BACKGROUND, 0, 0);
+    CTX.clearRect(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
     for (let obstacle of grid.obstacles) {
       const obstacleCoord = hexagon.grid.axisToPixel(grid, obstacle.x, obstacle.y);
       hexagon.draw(CTX, obstacleCoord, grid.radius, "rgb(255, 255, 0)");

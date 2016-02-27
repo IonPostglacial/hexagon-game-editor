@@ -16,6 +16,16 @@ body {
   display: none;
 }
 
+.layers {
+    position: relative;
+}
+
+.layer {
+    position: absolute;
+    x: 0;
+    y: 0;
+}
+
 .tool-box {
   display: flex;
   justify-content: flex-start;

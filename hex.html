@@ -12,18 +12,21 @@
       "use strict";
 
       const $ = document.querySelector.bind(document);
-      const SCENE_WIDTH = 800;
-      const SCENE_HEIGHT = 600;
       const GRID = {width: 14, height:12, radius: 32, obstacles: [{x: 5, y: 5}]};
 
-      initMapEditor(GRID, $('#scene'), $('#coord-mouse'), $('#coord-hex'));
+      initMapEditor(GRID, $('#layers'), $('#background'), $('#scene'), $('#coord-mouse'), $('#coord-hex'));
       initDownload(GRID, $('#uploaded'), $('#upload-scene'), $('#download-scene'));
     }; </script>
   </head>
   <body>
-    <canvas id="scene" width="800" height="600">
-      This page is useless without canvas.
-    </canvas>
+    <div id="layers" class="layers">
+      <canvas class="layer" id="background">
+        This page is useless without canvas.
+      </canvas>
+      <canvas class="layer" id="scene">
+        This page is useless without canvas.
+      </canvas>
+    </div>
     <ul class="centered tool-box">
       <li class="tool"><a class="btn" id="download-scene" href="#" download>Download current stage</a></li>
       <li class="tool"><a class="btn" id="upload-scene" href="#">Load a stage</a></li>
