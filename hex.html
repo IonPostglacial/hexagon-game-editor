@@ -14,9 +14,9 @@
       const $ = document.querySelector.bind(document);
       const SCENE_WIDTH = 800;
       const SCENE_HEIGHT = 600;
-      const GRID = {width: 14, height:6, radius: 32, obstacles: [{x: 5, y: 5}]};
+      const GRID = {width: 14, height:12, radius: 32, obstacles: [{x: 5, y: 5}]};
 
-      initMapEditor(GRID, SCENE_WIDTH, SCENE_HEIGHT, $('#scene'), $('#coord-mouse'), $('#coord-hex'));
+      initMapEditor(GRID, $('#scene'), $('#coord-mouse'), $('#coord-hex'));
       initDownload(GRID, $('#uploaded'), $('#upload-scene'), $('#download-scene'));
     }; </script>
   </head>
@@ -43,6 +43,5 @@
     <form id="hidden-form">
       <input type="file" id="uploaded" />
     </form>
-
   </body>
 </html>
