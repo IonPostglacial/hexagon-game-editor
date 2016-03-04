@@ -3,20 +3,18 @@
   <head>
     <title>Playing with hexagons</title>
     <link href="style.css" rel="stylesheet">
-    <script src="lib/heap.js"></script>
-    <script src="lib/pathfinding.js"></script>
-    <script src="lib/hexagon.js"></script>
-    <script src="js/mapeditor.js"></script>
-    <script src="js/download.js"></script>
-    <script> window.onload = () => {
-      "use strict";
+    <script src="lib/require.js"></script>
+    <script>
+      requirejs(["js/mapeditor", "js/download"], (MapEditor, Download) => {
+        "use strict";
 
-      const $ = document.querySelector.bind(document);
-      const GRID = {width: 14, height:12, radius: 32, obstacles: [{x: 5, y: 5}]};
+        const $ = document.querySelector.bind(document);
+        const GRID = {width: 14, height:12, radius: 32, obstacles: [{x: 5, y: 5}]};
 
-      initMapEditor(GRID, $('#layers'), $('#background'), $('#scene'), $('#coord-mouse'), $('#coord-hex'));
-      initDownload(GRID, $('#uploaded'), $('#upload-scene'), $('#download-scene'));
-    }; </script>
+        MapEditor.init(GRID, $('#layers'), $('#background'), $('#scene'), $('#coord-mouse'), $('#coord-hex'));
+        Download.init(GRID, $('#uploaded'), $('#upload-scene'), $('#download-scene'));
+      });
+    </script>
   </head>
   <body>
     <div id="layers" class="layers">

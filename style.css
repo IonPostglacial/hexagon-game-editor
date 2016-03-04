@@ -6,18 +6,14 @@ body {
   width: 80%;
 }
 
-#scene {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 #hidden-form {
   display: none;
 }
 
 .layers {
     position: relative;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .layer {

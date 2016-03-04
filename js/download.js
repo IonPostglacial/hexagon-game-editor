@@ -1,4 +1,4 @@
-function initDownload(grid, uploaded, uploadScene, downloadScene) {
+define({ init(grid, uploaded, uploadScene, downloadScene) {
   "use strict";
 
   uploadScene.onclick = (e) => {
@@ -17,4 +17,4 @@ function initDownload(grid, uploaded, uploadScene, downloadScene) {
     var blob = new Blob([JSON.stringify(grid.obstacles)], {type : 'application/json'});
     downloadScene.href = URL.createObjectURL(blob);
   };
-}
+}});
