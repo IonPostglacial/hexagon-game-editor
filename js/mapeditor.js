@@ -1,5 +1,5 @@
 define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
-  return { init(grid, layers, background, scene, coordMouse, coordHex) {
+  return { init(grid, layers, coordMouse, coordHex) {
     "use strict";
 
     const SCENE_WIDTH = hexagon.grid.pixelWidth(grid);
@@ -36,7 +36,7 @@ define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
 
     drawScene();
 
-    scene.onmousemove = (e) => {
+    layers.onmousemove = (e) => {
       const currentCoordinates = hexagon.grid.pixelToAxis(grid, e.offsetX, e.offsetY);
       if (lastStep.x !== currentCoordinates.x || lastStep. y !== currentCoordinates.y) {
         lastStep = currentCoordinates;
@@ -60,7 +60,7 @@ define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
       coordHex.rows[0].cells[3].innerHTML = lastStep.y;
     };
 
-    scene.onclick = (e) => {
+    layers.onclick = (e) => {
       const obstacle = hexagon.grid.pixelToAxis(grid, e.offsetX, e.offsetY);
       grid.obstacles.push(obstacle);
     };
