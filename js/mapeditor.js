@@ -4,6 +4,7 @@ define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
 
     const SCENE_WIDTH = hexagon.grid.pixelWidth(grid);
     const SCENE_HEIGHT = hexagon.grid.pixelHeight(grid);
+    const TILE_OBSTACLE = 1;
 
     layers.style.width = SCENE_WIDTH + "px";
     layers.style.height = SCENE_HEIGHT + "px";
@@ -23,9 +24,12 @@ define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
 
     function drawScene() {
       CTX.clearRect(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
-      for (let obstacle of grid.obstacles) {
-        const obstacleCoord = hexagon.grid.axisToPixel(grid, obstacle.x, obstacle.y);
-        hexagon.draw(CTX, obstacleCoord, grid.radius, "rgb(255, 255, 0)");
+      for (let entry of grid.data) {
+        let pos = entry[0], tile = entry[1];
+        if (tile === TILE_OBSTACLE) {
+          const obstacleCoord = hexagon.grid.axisToPixel(grid, pos.x, pos.y);
+          hexagon.draw(CTX, obstacleCoord, grid.radius, "rgb(255, 255, 0)");
+        }
       }
       for (let step of path) {
         const stepCoord = hexagon.grid.axisToPixel(grid, step.x, step.y);
@@ -45,12 +49,7 @@ define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
           if (!hexagon.grid.contains(grid, pos.x, pos.y)) {
             return false;
           }
-          for (let obstacle of grid.obstacles) {
-            if (pos.x === obstacle.x && pos.y === obstacle.y) {
-              return false;
-            }
-          }
-          return true
+          return grid.data.get(pos) !== TILE_OBSTACLE;
         });
         drawScene();
       }
@@ -63,7 +62,7 @@ define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
     layers.onclick = (e) => {
       const obstacle = hexagon.grid.pixelToAxis(grid, e.offsetX, e.offsetY);
       if(hexagon.grid.contains(grid, obstacle.x, obstacle.y)) {
-        grid.obstacles.push(obstacle);
+        grid.data.set(obstacle, TILE_OBSTACLE);
       }
     };
   }}

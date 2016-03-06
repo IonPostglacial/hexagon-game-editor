@@ -10,8 +10,8 @@
         "use strict";
 
         const $ = document.querySelector.bind(document);
-        const oddGrid = {width: 15, height:13, radius: 32, obstacles: []};
-        const evenGrid = {width: 15, height:12, radius: 32, obstacles: []};
+        const oddGrid = {width: 15, height:13, radius: 32};
+        const evenGrid = {width: 15, height:12, radius: 32};
         QUnit.test("Test allCoords", assert => {
           const coordsCorrect = grid => Array.from(hexagon.grid.allCoords(grid)).every(coord => assert.ok(hexagon.grid.contains(grid, coord.x, coord.y), "Passed !"));
           const rightNumberCoords = grid => assert.strictEqual(Array.from(hexagon.grid.allCoords(grid)).length, hexagon.grid.cellsNumber(grid), "Passed !");

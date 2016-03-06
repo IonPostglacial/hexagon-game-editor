@@ -1,20 +1,36 @@
-define({ init(grid, uploaded, uploadScene, downloadScene) {
+define(["lib/hexmap"], (HexMap) => {
   "use strict";
 
-  uploadScene.onclick = (e) => {
-    uploaded.click();
-  };
+  return {
+    init(grid, uploaded, uploadScene, downloadScene) {
+      function gridToJson (grid) {
+        const valueGrid = Object.assign({}, grid);
+        valueGrid.data = valueGrid.data.data;
+        return JSON.stringify(valueGrid);
+      }
 
-  uploaded.onchange = (e) => {
-    const READER = new FileReader();
-    READER.onload = (e) => {
-      Object.assign(grid, JSON.parse(READER.result));
-    };
-    READER.readAsText(uploaded.files[0]);
-  };
+      function gridFromJson (json) {
+        const grid = JSON.parse(json);
+        grid.data = new HexMap(grid.width, grid.height, grid.data);
+        return grid;
+      }
 
-  downloadScene.onclick = (e) => {
-    var blob = new Blob([JSON.stringify(grid)], {type : 'application/json'});
-    downloadScene.href = URL.createObjectURL(blob);
-  };
-}});
+      uploadScene.onclick = (e) => {
+        uploaded.click();
+      };
+
+      uploaded.onchange = (e) => {
+        const READER = new FileReader();
+        READER.onload = (e) => {
+          Object.assign(grid, gridFromJson(READER.result));
+        };
+        READER.readAsText(uploaded.files[0]);
+      };
+
+      downloadScene.onclick = (e) => {
+        var blob = new Blob([gridToJson(grid)], {type : 'application/json'});
+        downloadScene.href = URL.createObjectURL(blob);
+      };
+    }
+  }
+});
