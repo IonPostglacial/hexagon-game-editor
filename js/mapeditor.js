@@ -4,6 +4,7 @@ define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
 
     const SCENE_WIDTH = hexagon.grid.pixelWidth(grid);
     const SCENE_HEIGHT = hexagon.grid.pixelHeight(grid);
+
     layers.style.width = SCENE_WIDTH + "px";
     layers.style.height = SCENE_HEIGHT + "px";
     for (let i = 0; i < layers.children.length; i++) {
@@ -42,7 +43,6 @@ define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
         lastStep = currentCoordinates;
         path = PF.shortestPathBetween(firstStep, lastStep, PF.hexDistance, (pos) => {
           if (!hexagon.grid.contains(grid, pos.x, pos.y)) {
-            console.log("no !")
             return false;
           }
           for (let obstacle of grid.obstacles) {
