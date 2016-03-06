@@ -41,8 +41,7 @@ define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
       if (lastStep.x !== currentCoordinates.x || lastStep. y !== currentCoordinates.y) {
         lastStep = currentCoordinates;
         path = PF.shortestPathBetween(firstStep, lastStep, PF.hexDistance, (pos) => {
-          const maxDimension = Math.max(grid.width, grid.height * 2 - 1);
-          if (pos.x < -maxDimension || pos.x > maxDimension || pos.y < 0 || pos.y > grid.height * 2 - 1) {
+          if (Math.floor(pos.x + 0.5 * pos.y) < 0 || Math.ceil(pos.x + 0.5 * pos.y) >= grid.width || pos.y < 0 || pos.y >= grid.height) {
             return false;
           }
           for (let obstacle of grid.obstacles) {
