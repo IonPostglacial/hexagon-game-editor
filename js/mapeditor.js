@@ -41,7 +41,7 @@ define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
       if (lastStep.x !== currentCoordinates.x || lastStep. y !== currentCoordinates.y) {
         lastStep = currentCoordinates;
         path = PF.shortestPathBetween(firstStep, lastStep, PF.hexDistance, (pos) => {
-          if (Math.floor(pos.x + 0.5 * pos.y) < 0 || Math.ceil(pos.x + 0.5 * pos.y) >= grid.width || pos.y < 0 || pos.y >= grid.height) {
+          if (!hexagon.grid.contains(grid, pos)) {
             return false;
           }
           for (let obstacle of grid.obstacles) {
@@ -61,7 +61,9 @@ define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
 
     layers.onclick = (e) => {
       const obstacle = hexagon.grid.pixelToAxis(grid, e.offsetX, e.offsetY);
-      grid.obstacles.push(obstacle);
+      if(hexagon.grid.contains(grid, obstacle)) {
+        grid.obstacles.push(obstacle);
+      }
     };
   }}
 });
