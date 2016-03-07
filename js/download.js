@@ -30,6 +30,7 @@ define(["lib/hexmap"], (HexMap) => {
       downloadScene.onclick = (e) => {
         var blob = new Blob([gridToJson(grid)], {type : 'application/json'});
         downloadScene.href = URL.createObjectURL(blob);
+        downloadScene.download = "scene.json";
       };
     }
   }

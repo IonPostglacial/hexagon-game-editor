@@ -2,7 +2,8 @@
 <html>
   <head>
     <title>Playing with hexagons</title>
-    <link href="style.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
     <script src="lib/require.js"></script>
     <script>
       requirejs(["js/mapeditor", "js/download", "lib/hexmap"], (MapEditor, Download, HexMap) => {
@@ -26,8 +27,12 @@
       </canvas>
     </div>
     <ul class="centered tool-box">
-      <li class="tool"><a class="btn" id="download-scene" href="#" download>Download current stage</a></li>
-      <li class="tool"><a class="btn" id="upload-scene" href="#">Load a stage</a></li>
+      <li class="tool">
+        <a class="btn" id="download-scene" href="#" download><i class="fa fa-pull-left fa-download fa-lg"></i>Download current stage</a>
+      </li>
+      <li class="tool">
+        <a class="btn" id="upload-scene" href="#"><i class="fa fa-pull-left fa-upload fa-lg"></i>Upload a stage</a>
+      </li>
       <li class="tool">
         <table id="coord-hex" class="tool numerical gauge">
           <caption>Hex Coordinates</caption>
