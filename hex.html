@@ -12,7 +12,7 @@
         const $ = document.querySelector.bind(document);
         const GRID = {width: 14, height:12, radius: 32, data: new HexMap(14, 12)};
 
-        MapEditor.init(GRID, $('#layers'), $('#coord-mouse'), $('#coord-hex'));
+        MapEditor.init(GRID, $('#layers'), $('#tile-type-selector'), $('#coord-mouse'), $('#coord-hex'));
         Download.init(GRID, $('#uploaded'), $('#upload-scene'), $('#download-scene'));
       });
     </script>
@@ -26,6 +26,14 @@
         This page is useless without canvas.
       </canvas>
     </div>
+    <form id="tile-type-selector" class="centered tool-box">
+      <fieldset>
+        <label class="btn"><input name="tile-type" type="radio" value="0" checked /><span><i class="fa fa-fw fa-car"></i>Land</span></label>
+        <label class="btn"><input name="tile-type" type="radio" value="1" /><span><i class="fa fa-fw fa-subway"></i>Rock</span></label>
+        <label class="btn"><input name="tile-type" type="radio" value="2" /><span><i class="fa fa-fw fa-ship"></i>Water</span></label>
+        <label class="btn"><input name="tile-type" type="radio" value="3" /><span><i class="fa fa-fw fa-plane"></i>Void</span></label>
+      </fieldset>
+    </form>
     <ul class="centered tool-box">
       <li class="tool">
         <a class="btn" id="download-scene" href="#" download><i class="fa fa-pull-left fa-download fa-lg"></i>Download current stage</a>
