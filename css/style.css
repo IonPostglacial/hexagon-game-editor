@@ -72,6 +72,7 @@ ul.tool-box {
 
 .btn [type="radio"]:checked + span {
     background-color: rgba(90, 90, 90, 0.20);
+    display: inline-block;
     margin: -8px;
     padding: 8px;
 }
