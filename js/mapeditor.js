@@ -4,14 +4,15 @@ define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
 
     const SCENE_WIDTH = hexagon.grid.pixelWidth(grid);
     const SCENE_HEIGHT = hexagon.grid.pixelHeight(grid);
-    const TileType = { LAND: 0, ROCK: 1, WATER: 2, VOID: 3 };
+    const TileType = { LAND: 0, ROCK: 1, WATER: 2, VOID: 3, SAND: 4 };
     const TileProperties = [
       {obstacle: false, color: "rgb(100, 50, 0)"},
       {obstacle: true, color: "rgb(100, 100, 100)"},
       {obstacle: true, color: "rgb(0, 150, 200)"},
-      {obstacle: true, color: "rgb(0, 0, 0)"}
+      {obstacle: true, color: "rgb(0, 0, 0)"},
+      {obstacle: false, color: "rgb(255, 218, 65)"}
     ];
-    let selectedTileType = TileType.LAND;
+    let selectedTileType = parseInt(tileTypeSelector.elements['tile-type'].value);
 
     layers.style.width = SCENE_WIDTH + "px";
     layers.style.height = SCENE_HEIGHT + "px";

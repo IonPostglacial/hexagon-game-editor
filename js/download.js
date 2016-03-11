@@ -2,7 +2,7 @@ define(["lib/hexmap"], (HexMap) => {
   "use strict";
 
   return {
-    init(grid, uploaded, uploadScene, downloadScene) {
+    init(grid, uploaded, uploadScene, downloadScene, saveScene, loadScene) {
       function gridToJson (grid) {
         const valueGrid = Object.assign({}, grid);
         valueGrid.data = valueGrid.data.data;
@@ -31,6 +31,18 @@ define(["lib/hexmap"], (HexMap) => {
         var blob = new Blob([gridToJson(grid)], {type : 'application/json'});
         downloadScene.href = URL.createObjectURL(blob);
         downloadScene.download = "scene.json";
+      };
+
+      saveScene.onclick = (e) => {
+        localStorage.scene = gridToJson(grid);
+      };
+
+      loadScene.onclick = (e) => {
+        var scene = localStorage.scene;
+        if(!!scene)
+        {
+          Object.assign(grid, gridFromJson(scene));
+        }
       };
     }
   }
