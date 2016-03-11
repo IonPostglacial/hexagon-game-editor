@@ -1,7 +1,12 @@
 define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
-  return { init(grid, layers, tileTypeSelector, coordMouse, coordHex) {
+  return { init(grid) {
     "use strict";
 
+    const $ = document.querySelector.bind(document);
+    const layers = $('#layers')
+    const tileTypeSelector = $('#tile-type-selector');
+    const coordMouse = $('#coord-mouse');
+    const coordHex = $('#coord-hex');
     const SCENE_WIDTH = hexagon.grid.pixelWidth(grid);
     const SCENE_HEIGHT = hexagon.grid.pixelHeight(grid);
     const TileType = { LAND: 0, ROCK: 1, WATER: 2, VOID: 3, SAND: 4 };

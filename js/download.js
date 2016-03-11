@@ -2,7 +2,14 @@ define(["lib/hexmap"], (HexMap) => {
   "use strict";
 
   return {
-    init(grid, uploaded, uploadScene, downloadScene, saveScene, loadScene) {
+    init(grid) {
+      const $ = document.querySelector.bind(document);
+      const uploaded = $('#uploaded');
+      const uploadScene = $('#upload-scene');
+      const downloadScene = $('#download-scene');
+      const saveScene = $('#save-scene');
+      const loadScene = $('#load-scene');
+
       function gridToJson (grid) {
         const valueGrid = Object.assign({}, grid);
         valueGrid.data = valueGrid.data.data;
@@ -39,8 +46,7 @@ define(["lib/hexmap"], (HexMap) => {
 
       loadScene.onclick = (e) => {
         var scene = localStorage.scene;
-        if(!!scene)
-        {
+        if (scene) {
           Object.assign(grid, gridFromJson(scene));
         }
       };
