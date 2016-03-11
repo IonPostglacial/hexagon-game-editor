@@ -12,7 +12,7 @@ define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
       {obstacle: true, color: "rgb(0, 0, 0)"},
       {obstacle: false, color: "rgb(255, 218, 65)"}
     ];
-    let selectedTileType = TileType.LAND;
+    let selectedTileType = parseInt(tileTypeSelector.elements['tile-type'].value);
 
     layers.style.width = SCENE_WIDTH + "px";
     layers.style.height = SCENE_HEIGHT + "px";
