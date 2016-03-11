@@ -13,7 +13,7 @@
         const GRID = {width: 14, height:12, radius: 32, data: new HexMap(14, 12)};
 
         MapEditor.init(GRID, $('#layers'), $('#tile-type-selector'), $('#coord-mouse'), $('#coord-hex'));
-        Download.init(GRID, $('#uploaded'), $('#upload-scene'), $('#download-scene'));
+        Download.init(GRID, $('#uploaded'), $('#upload-scene'), $('#download-scene'), $('#save-scene'), $('#load-scene'));
       });
     </script>
   </head>
@@ -42,6 +42,14 @@
       <li class="tool">
         <a class="btn" id="upload-scene" href="#"><i class="fa fa-pull-left fa-upload fa-lg"></i>Upload a stage</a>
       </li>
+      <li class="tool">
+        <a class="btn" id="save-scene" href="#" download><i class="fa fa-pull-left fa-floppy-o fa-lg"></i>Save current stage</a>
+      </li>
+      <li class="tool">
+        <a class="btn" id="load-scene" href="#"><i class="fa fa-pull-left fa-folder-open-o fa-lg"></i>Load stage</a>
+      </li>
+    </ul>
+    <ul class="centered tool-box">
       <li class="tool">
         <table id="coord-hex" class="tool numerical gauge">
           <caption>Hex Coordinates</caption>
