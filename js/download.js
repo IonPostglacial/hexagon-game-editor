@@ -12,13 +12,17 @@ define(["lib/hexmap"], (HexMap) => {
 
       function gridToJson (grid) {
         const valueGrid = Object.assign({}, grid);
-        valueGrid.data = valueGrid.data.data;
+        valueGrid.data = String.fromCharCode(...valueGrid.data.data);
         return JSON.stringify(valueGrid);
       }
 
       function gridFromJson (json) {
         const grid = JSON.parse(json);
-        grid.data = new HexMap(grid.width, grid.height, grid.data);
+        const data = new Array(grid.data.length);
+        for (let i = 0; i < grid.data.length; i++) {
+            data[i] = grid.data.charCodeAt(i);
+        }
+        grid.data = new HexMap(grid.width, grid.height, 0, data);
         return grid;
       }
 
