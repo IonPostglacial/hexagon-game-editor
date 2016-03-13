@@ -58,6 +58,13 @@ return {
       coordHex.rows[0].cells[3].innerHTML = lastStep.y;
     };
 
+    layers.oncontextmenu = (e) => {
+      e.preventDefault();
+      const currentCoordinates = hexagon.grid.pixelToAxis(grid, e.offsetX, e.offsetY);
+      firstStep = currentCoordinates;
+      return false;
+    };
+
     tileTypeSelector.onclick = (e) => {
       selectedTileType = parseInt($('#tile-type-selector input[type="radio"]:checked').value);
     };
