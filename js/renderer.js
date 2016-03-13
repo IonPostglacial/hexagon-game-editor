@@ -1,16 +1,9 @@
-define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
+define(["lib/hexagon", "lib/pathfinding", "js/tile"], (hexagon, PF, Tile) => {
 "use strict";
 
 const $ = document.querySelector.bind(document);
 const layers = $('#layers');
-const TileProperties = [
-  {name: "Land", obstacle: false, color: "rgb(100, 50, 0)"},
-  {name: "Rock", obstacle: true, color: "rgb(100, 100, 100)"},
-  {name: "Water", obstacle: true, color: "rgb(0, 150, 200)"},
-  {name: "Void", obstacle: true, color: "rgb(0, 0, 0)"},
-  {name: "Sand", obstacle: false, color: "rgb(255, 218, 65)"}
-];
-const allColors = TileProperties.map(prop => prop.color);
+const allColors = Tile.types.map(prop => prop.color);
 const tilesByColor = new Map();
 const BG_CTX = layers.children[0].getContext('2d');
 const CTX = layers.children[1].getContext("2d");
@@ -21,8 +14,6 @@ let path = [];
 
 return {
   init (grid) {
-    "use strict";
-
     this.grid = grid;
     this.scene_width = hexagon.grid.pixelWidth(this.grid);
     this.scene_height = hexagon.grid.pixelHeight(this.grid);
@@ -44,7 +35,7 @@ return {
       if (!hexagon.grid.contains(this.grid, pos.x, pos.y)) {
         return false;
       }
-      return this.grid.data.get(pos) === null || !TileProperties[this.grid.data.get(pos)].obstacle;
+      return this.grid.data.get(pos) === null || !Tile.types[this.grid.data.get(pos)].obstacle;
     });
   },
 
@@ -56,7 +47,7 @@ return {
       let pos = entry[0], tile = entry[1];
       if (tile !== null) {
         const obstacleCoord = hexagon.grid.axisToPixel(this.grid, pos.x, pos.y);
-        tilesByColor.get(TileProperties[tile].color).push(obstacleCoord);
+        tilesByColor.get(Tile.types[tile].color).push(obstacleCoord);
       }
     }
     for (let colorPosition of tilesByColor) {

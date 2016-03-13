@@ -11,8 +11,6 @@ return {
   ontiletypechange (e) {},
   onselectedtilechange (e) {},
   init(grid) {
-    "use strict";
-
     $('#layers').onmousemove = (e) => {
       const currentCoords = hexagon.grid.pixelToAxis(grid, e.offsetX, e.offsetY);
       if (lastSelectedCoords.x !== currentCoords.x || lastSelectedCoords. y !== currentCoords.y) {
