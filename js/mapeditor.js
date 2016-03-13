@@ -59,7 +59,7 @@ return {
     };
 
     tileTypeSelector.onclick = (e) => {
-      selectedTileType = parseInt(tileTypeSelector.elements['tile-type'].value);
+      selectedTileType = parseInt($('#tile-type-selector input[type="radio"]:checked').value);
     };
 
     layers.onclick = (e) => {
