@@ -1,4 +1,5 @@
 define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
+"use strict";
 
 const $ = document.querySelector.bind(document);
 const layers = $('#layers');
@@ -46,7 +47,7 @@ return {
       return this.grid.data.get(pos) === null || !TileProperties[this.grid.data.get(pos)].obstacle;
     });
   },
-    
+
   drawBackground () {
     for (let color of allColors) {
       tilesByColor.set(color, []);

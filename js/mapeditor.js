@@ -1,4 +1,5 @@
 define(["lib/hexagon"], (hexagon, PF) => {
+"use strict";
 
 const $ = document.querySelector.bind(document);
 const coordMouse = $('#coord-mouse');
