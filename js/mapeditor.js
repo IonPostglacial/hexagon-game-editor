@@ -14,6 +14,15 @@ define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
     ];
     let selectedTileType = parseInt(tileTypeSelector.elements['tile-type'].value);
 
+    //Add background to button
+    var buttons = document.querySelectorAll('.tile-select');
+    for(var i in TileProperties)
+    {
+      var item = TileProperties[i];
+      var color = item.color;
+      buttons[i].style.backgroundColor = color.substr(0, 3)+'a'+color.substring(3, color.length-1)+', 0.5)';
+    }
+
     layers.style.width = SCENE_WIDTH + "px";
     layers.style.height = SCENE_HEIGHT + "px";
     for (let i = 0; i < layers.children.length; i++) {
