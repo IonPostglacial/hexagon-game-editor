@@ -2,6 +2,7 @@ define(["lib/hexmap"], (HexMap) => {
   "use strict";
 
   return {
+    onscenechange(e) {},
     init(grid) {
       const $ = document.querySelector.bind(document);
       const uploaded = $('#uploaded');
@@ -34,6 +35,7 @@ define(["lib/hexmap"], (HexMap) => {
         const READER = new FileReader();
         READER.onload = (e) => {
           Object.assign(grid, gridFromJson(READER.result));
+          this.onscenechange({});
         };
         READER.readAsText(uploaded.files[0]);
       };
@@ -52,6 +54,7 @@ define(["lib/hexmap"], (HexMap) => {
         var scene = localStorage.scene;
         if (scene) {
           Object.assign(grid, gridFromJson(scene));
+          this.onscenechange({});
         }
       };
     }

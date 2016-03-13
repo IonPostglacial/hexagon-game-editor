@@ -14,6 +14,7 @@
 
         MapEditor.init(GRID);
         Download.init(GRID);
+        Download.onscenechange = e => MapEditor.drawBackground();
       });
     </script>
   </head>
