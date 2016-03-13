@@ -67,6 +67,13 @@ define(["lib/hexagon", "lib/pathfinding"], (hexagon, PF) => {
       coordHex.rows[0].cells[3].innerHTML = lastStep.y;
     };
 
+    layers.oncontextmenu = (e) => {
+      e.preventDefault();
+      const currentCoordinates = hexagon.grid.pixelToAxis(grid, e.offsetX, e.offsetY);
+      firstStep = currentCoordinates;
+      return false;
+    };
+
     tileTypeSelector.onclick = (e) => {
       selectedTileType = parseInt(tileTypeSelector.elements['tile-type'].value);
     };
