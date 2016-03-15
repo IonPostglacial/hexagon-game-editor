@@ -1,16 +1,16 @@
-define(["lib/hexagon"], (hexagon, PF) => {
+define(["lib/hexagon"], (hexagon) => {
 "use strict";
 
 const $ = document.querySelector.bind(document);
 const coordMouse = $('#coord-mouse');
 const coordHex = $('#coord-hex');
-let selectedTileType = parseInt($('#tile-type-selector input[type="radio"]:checked').value);
 let lastSelectedCoords = {x: 0, y: 0};
 
 return {
   ontiletypechange (e) {},
   onselectedtilechange (e) {},
-  init(grid) {
+  selectedTileType: 0,
+  init (grid) {
     $('#layers').onmousemove = (e) => {
       const currentCoords = hexagon.grid.pixelToAxis(grid, e.offsetX, e.offsetY);
       if (lastSelectedCoords.x !== currentCoords.x || lastSelectedCoords. y !== currentCoords.y) {
@@ -26,12 +26,8 @@ return {
     $('#layers').onclick = (e) => {
       const obstacle = hexagon.grid.pixelToAxis(grid, e.offsetX, e.offsetY);
       if (hexagon.grid.contains(grid, obstacle.x, obstacle.y)) {
-        this.ontiletypechange ({position: obstacle, tileType: selectedTileType});
+        this.ontiletypechange ({position: obstacle, tileType: this.selectedTileType});
       }
-    };
-
-    $('#tile-type-selector').onclick = (e) => {
-      selectedTileType = parseInt($('#tile-type-selector input[type="radio"]:checked').value);
     };
   }
 }});

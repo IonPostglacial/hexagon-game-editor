@@ -4,29 +4,37 @@
     <title>Playing with hexagons</title>
     <link href="css/style.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
+    <script src="lib/react.js"></script>
+    <script src="lib/react-dom.js"></script>
     <script src="lib/require.js"></script>
     <script>
-      requirejs(["js/mapeditor", "js/renderer", "js/download", "lib/hexmap"], (Editor, Renderer, Download, HexMap) => {
-       "use strict";
+      requirejs(["js/mapeditor", "js/renderer", "js/download", "js/hselectbox", "js/tile", "lib/hexmap"],
+        (Editor, Renderer, Download, HSelectBox, Tile, HexMap) => {
+        "use strict";
 
-       const GRID = {width: 14, height:12, radius: 32, data: new HexMap(14, 12, 0)};
+        const GRID = {width: 14, height:12, radius: 32, data: new HexMap(14, 12, 0)};
 
-       Renderer.init(GRID);
-       Editor.init(GRID);
-       Download.init(GRID);
-       Editor.ontiletypechange = e => {
+        Renderer.init(GRID);
+        Editor.init(GRID);
+        Download.init(GRID);
+        ReactDOM.render(
+          React.createElement(HSelectBox, {onChange: e => { Editor.selectedTileType = e.value }, data: Tile.types}),
+          document.getElementById('editor')
+        );
+        Editor.ontiletypechange = e => {
          GRID.data.set(e.position, e.tileType);
          Renderer.drawBackground();
-       };
-       Editor.onselectedtilechange = e => {
+        };
+        Editor.onselectedtilechange = e => {
          Renderer.setLastStep(e.coordinates);
          Renderer.drawScene();
-       };
-       Download.onscenechange = e => Renderer.drawBackground();
+        };
+        Download.onscenechange = e => Renderer.drawBackground();
       });
     </script>
   </head>
   <body>
+    <!-- Renderer -->
     <div id="layers" class="layers">
       <canvas class="layer" id="background">
         This page is useless without canvas.
@@ -35,29 +43,8 @@
         This page is useless without canvas.
       </canvas>
     </div>
-    <form id="tile-type-selector" class="centered tool-box">
-      <fieldset>
-        <label class="btn"><input name="tile-type" type="radio" value="0" checked /><span><i class="fa fa-fw fa-car"></i>Land</span></label>
-        <label class="btn"><input name="tile-type" type="radio" value="1" /><span><i class="fa fa-fw fa-subway"></i>Rock</span></label>
-        <label class="btn"><input name="tile-type" type="radio" value="2" /><span><i class="fa fa-fw fa-ship"></i>Water</span></label>
-        <label class="btn"><input name="tile-type" type="radio" value="3" /><span><i class="fa fa-fw fa-plane"></i>Void</span></label>
-        <label class="btn"><input name="tile-type" type="radio" value="4" /><span><i class="fa fa-fw fa-sun-o"></i>Sand</span></label>
-      </fieldset>
-    </form>
-    <ul class="centered tool-box">
-      <li class="tool">
-        <a class="btn" id="download-scene" href="#" download><i class="fa fa-pull-left fa-download fa-lg"></i>Download current stage</a>
-      </li>
-      <li class="tool">
-        <a class="btn" id="upload-scene" href="#"><i class="fa fa-pull-left fa-upload fa-lg"></i>Upload a stage</a>
-      </li>
-      <li class="tool">
-        <a class="btn" id="save-scene" href="#"><i class="fa fa-pull-left fa-floppy-o fa-lg"></i>Save current stage</a>
-      </li>
-      <li class="tool">
-        <a class="btn" id="load-scene" href="#"><i class="fa fa-pull-left fa-folder-open-o fa-lg"></i>Load stage</a>
-      </li>
-    </ul>
+    <!-- Editor -->
+    <div id="editor"></div>
     <ul class="centered tool-box">
       <li class="tool">
         <table id="coord-hex" class="tool numerical gauge">
@@ -70,6 +57,21 @@
           <caption>Pix Coordinates</caption>
           <tr><th>x</th><td>0</td><th>y</th><td>0</td></tr>
         </table>
+      </li>
+    </ul>
+    <!-- Download -->
+    <ul class="centered tool-box">
+      <li class="tool">
+        <a class="btn" id="download-scene" href="#" download><i class="fa fa-pull-left fa-download fa-lg"></i>Download current stage</a>
+      </li>
+      <li class="tool">
+        <a class="btn" id="upload-scene" href="#"><i class="fa fa-pull-left fa-upload fa-lg"></i>Upload a stage</a>
+      </li>
+      <li class="tool">
+        <a class="btn" id="save-scene" href="#"><i class="fa fa-pull-left fa-floppy-o fa-lg"></i>Save current stage</a>
+      </li>
+      <li class="tool">
+        <a class="btn" id="load-scene" href="#"><i class="fa fa-pull-left fa-folder-open-o fa-lg"></i>Load stage</a>
       </li>
     </ul>
     <form id="hidden-form">
