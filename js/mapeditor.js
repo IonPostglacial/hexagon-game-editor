@@ -2,7 +2,6 @@ define(["lib/hexagon", "js/hselectbox", "js/coordbox", "js/multilayercanvas", "j
 "use strict";
 
 const R = React.DOM;
-let lastSelectedCoords = {x: 0, y: 0};
 
 return React.createClass({displayName: 'MapEditor',
   getInitialState () {
