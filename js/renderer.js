@@ -1,43 +1,40 @@
 define(["lib/hexagon", "lib/pathfinding", "js/tile"], (hexagon, PF, Tile) => {
 "use strict";
 
-const allColors = Tile.types.map(prop => prop.color);
-const tilesByColor = new Map();
+class Renderer {
+  constructor () {
+    this.allColors = Tile.types.map(prop => prop.color);
+    this.tilesByColor = new Map();
+    this.firstStep = {x: 0, y: 0};
+    this.lastStep = {x: 0, y: 0};
+    this.lastData = null;
+    this.path = [];
+  }
 
-let firstStep = {x: 0, y: 0};
-let lastStep = {x: 0, y: 0};
-let lastData = null;
-let path = [];
-
-return {
   setLastStep (grid, newLastStep) {
-    lastStep = newLastStep;
-    path = PF.shortestPathBetween(firstStep, lastStep, PF.hexDistance, (pos) => {
+    this.lastStep = newLastStep;
+    this.path = PF.shortestPathBetween(this.firstStep, this.lastStep, PF.hexDistance, (pos) => {
       if (!hexagon.grid.contains(grid, pos.x, pos.y)) {
         return false;
       }
-      if (Tile.types[grid.data.get(pos)] === undefined) {
-        console.log(grid);
-        console.log(pos);
-      }
       return grid.data.get(pos) === null || !Tile.types[grid.data.get(pos)].obstacle;
     });
-  },
+  }
 
   drawBackground (bgCtx, grid) {
-    if (grid.data && lastData !== grid.data) {
-      lastData = grid.data;
-      for (let color of allColors) {
-        tilesByColor.set(color, []);
+    if (grid.data && this.lastData !== grid.data) {
+      this.lastData = grid.data;
+      for (let color of this.allColors) {
+        this.tilesByColor.set(color, []);
       }
       for (let entry of grid.data) {
         let pos = entry[0], tile = entry[1];
         if (tile !== null) {
           const obstacleCoord = hexagon.grid.axisToPixel(grid, pos.x, pos.y);
-          tilesByColor.get(Tile.types[tile].color).push(obstacleCoord);
+          this.tilesByColor.get(Tile.types[tile].color).push(obstacleCoord);
         }
       }
-      for (let colorPosition of tilesByColor) {
+      for (let colorPosition of this.tilesByColor) {
         bgCtx.beginPath();
         bgCtx.fillStyle = colorPosition[0];
         for (let pos of colorPosition[1]) {
@@ -47,24 +44,28 @@ return {
       }
       hexagon.grid.draw(bgCtx, grid, "rgb(150, 150, 150)");
     }
-  },
+  }
 
   drawScene (ctx, grid, selectedTilePosition) {
-    if (lastStep.x !== selectedTilePosition.x || lastStep.y !== selectedTilePosition.y) {
+    if (this.lastStep.x !== selectedTilePosition.x || this.lastStep.y !== selectedTilePosition.y) {
       this.setLastStep(grid, selectedTilePosition);
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
       ctx.beginPath();
       ctx.strokeStyle = "rgb(0, 255, 0)";
-      for (let step of path) {
+      for (let step of this.path) {
         const stepCoord = hexagon.grid.axisToPixel(grid, step.x, step.y);
         hexagon.path(ctx, stepCoord, grid.radius);
       }
       ctx.stroke();
       ctx.beginPath();
       ctx.strokeStyle = "rgb(255, 0, 0)";
-      hexagon.path(ctx, hexagon.grid.axisToPixel(grid, firstStep.x, firstStep.y), grid.radius);
-      hexagon.path(ctx, hexagon.grid.axisToPixel(grid, lastStep.x, lastStep.y), grid.radius);
+      hexagon.path(ctx, hexagon.grid.axisToPixel(grid, this.firstStep.x, this.firstStep.y), grid.radius);
+      hexagon.path(ctx, hexagon.grid.axisToPixel(grid, this.lastStep.x, this.lastStep.y), grid.radius);
       ctx.stroke();
     }
   }
-}});
+}
+
+return Renderer;
+
+});
