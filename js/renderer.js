@@ -1,79 +1,70 @@
 define(["lib/hexagon", "lib/pathfinding", "js/tile"], (hexagon, PF, Tile) => {
 "use strict";
 
-const $ = document.querySelector.bind(document);
-const layers = $('#layers');
 const allColors = Tile.types.map(prop => prop.color);
 const tilesByColor = new Map();
-const BG_CTX = layers.children[0].getContext('2d');
-const CTX = layers.children[1].getContext("2d");
 
 let firstStep = {x: 0, y: 0};
 let lastStep = {x: 0, y: 0};
+let lastData = null;
 let path = [];
 
 return {
-  init (grid) {
-    this.grid = grid;
-    this.scene_width = hexagon.grid.pixelWidth(this.grid);
-    this.scene_height = hexagon.grid.pixelHeight(this.grid);
-    layers.style.width = this.scene_width + "px";
-    layers.style.height = this.scene_height + "px";
-    for (let i = 0; i < layers.children.length; i++) {
-      layers.children[i].width = this.scene_width;
-      layers.children[i].height = this.scene_height;
-    }
-    BG_CTX.fillStyle = "rgb(50, 50, 50)";
-    BG_CTX.fillRect(0, 0, this.scene_width, this.scene_height);
-    this.drawBackground();
-    this.drawScene();
-  },
-
-  setLastStep (newLastStep) {
+  setLastStep (grid, newLastStep) {
     lastStep = newLastStep;
     path = PF.shortestPathBetween(firstStep, lastStep, PF.hexDistance, (pos) => {
-      if (!hexagon.grid.contains(this.grid, pos.x, pos.y)) {
+      if (!hexagon.grid.contains(grid, pos.x, pos.y)) {
         return false;
       }
-      return this.grid.data.get(pos) === null || !Tile.types[this.grid.data.get(pos)].obstacle;
+      if (Tile.types[grid.data.get(pos)] === undefined) {
+        console.log(grid);
+        console.log(pos);
+      }
+      return grid.data.get(pos) === null || !Tile.types[grid.data.get(pos)].obstacle;
     });
   },
 
-  drawBackground () {
-    for (let color of allColors) {
-      tilesByColor.set(color, []);
-    }
-    for (let entry of this.grid.data) {
-      let pos = entry[0], tile = entry[1];
-      if (tile !== null) {
-        const obstacleCoord = hexagon.grid.axisToPixel(this.grid, pos.x, pos.y);
-        tilesByColor.get(Tile.types[tile].color).push(obstacleCoord);
+  drawBackground (bgCtx, grid) {
+    if (grid.data && lastData !== grid.data) {
+      lastData = grid.data;
+      for (let color of allColors) {
+        tilesByColor.set(color, []);
       }
-    }
-    for (let colorPosition of tilesByColor) {
-      BG_CTX.beginPath();
-      BG_CTX.fillStyle = colorPosition[0];
-      for (let pos of colorPosition[1]) {
-        hexagon.path(BG_CTX, pos, this.grid.radius);
+      for (let entry of grid.data) {
+        let pos = entry[0], tile = entry[1];
+        if (tile !== null) {
+          const obstacleCoord = hexagon.grid.axisToPixel(grid, pos.x, pos.y);
+          tilesByColor.get(Tile.types[tile].color).push(obstacleCoord);
+        }
       }
-      BG_CTX.fill();
+      for (let colorPosition of tilesByColor) {
+        bgCtx.beginPath();
+        bgCtx.fillStyle = colorPosition[0];
+        for (let pos of colorPosition[1]) {
+          hexagon.path(bgCtx, pos, grid.radius);
+        }
+        bgCtx.fill();
+      }
+      hexagon.grid.draw(bgCtx, grid, "rgb(150, 150, 150)");
     }
-    hexagon.grid.draw(BG_CTX, this.grid, "rgb(150, 150, 150)");
   },
 
-  drawScene() {
-    CTX.clearRect(0, 0, this.scene_width, this.scene_height);
-    CTX.beginPath();
-    CTX.strokeStyle = "rgb(0, 255, 0)";
-    for (let step of path) {
-      const stepCoord = hexagon.grid.axisToPixel(this.grid, step.x, step.y);
-      hexagon.path(CTX, stepCoord, this.grid.radius);
+  drawScene (ctx, grid, selectedTilePosition) {
+    if (lastStep.x !== selectedTilePosition.x || lastStep.y !== selectedTilePosition.y) {
+      this.setLastStep(grid, selectedTilePosition);
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      ctx.beginPath();
+      ctx.strokeStyle = "rgb(0, 255, 0)";
+      for (let step of path) {
+        const stepCoord = hexagon.grid.axisToPixel(grid, step.x, step.y);
+        hexagon.path(ctx, stepCoord, grid.radius);
+      }
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.strokeStyle = "rgb(255, 0, 0)";
+      hexagon.path(ctx, hexagon.grid.axisToPixel(grid, firstStep.x, firstStep.y), grid.radius);
+      hexagon.path(ctx, hexagon.grid.axisToPixel(grid, lastStep.x, lastStep.y), grid.radius);
+      ctx.stroke();
     }
-    CTX.stroke();
-    CTX.beginPath();
-    CTX.strokeStyle = "rgb(255, 0, 0)";
-    hexagon.path(CTX, hexagon.grid.axisToPixel(this.grid, firstStep.x, firstStep.y), this.grid.radius);
-    hexagon.path(CTX, hexagon.grid.axisToPixel(this.grid, lastStep.x, lastStep.y), this.grid.radius);
-    CTX.stroke();
   }
 }});

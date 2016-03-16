@@ -24,7 +24,7 @@ define(function () {
       const newSelectedValue = parseInt(e.target.value);
       this.setState({ selectedValue: newSelectedValue });
       if (this.props.onChange) {
-        this.props.onChange({value: newSelectedValue });
+        this.props.onChange({ value: newSelectedValue });
       }
     },
     render () {

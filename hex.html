@@ -8,57 +8,23 @@
     <script src="lib/react-dom.js"></script>
     <script src="lib/require.js"></script>
     <script>
-      requirejs(["js/mapeditor", "js/renderer", "js/download", "js/hselectbox", "js/tile", "lib/hexmap"],
-        (Editor, Renderer, Download, HSelectBox, Tile, HexMap) => {
+      requirejs(["js/mapeditor", "js/download", "lib/hexmap"],
+        (Editor, Download, HexMap) => {
         "use strict";
 
         const GRID = {width: 14, height:12, radius: 32, data: new HexMap(14, 12, 0)};
 
-        Renderer.init(GRID);
-        Editor.init(GRID);
         Download.init(GRID);
         ReactDOM.render(
-          React.createElement(HSelectBox, {onChange: e => { Editor.selectedTileType = e.value }, data: Tile.types}),
+          React.createElement(Editor, {width: 14, height:12, radius: 32}),
           document.getElementById('editor')
         );
-        Editor.ontiletypechange = e => {
-         GRID.data.set(e.position, e.tileType);
-         Renderer.drawBackground();
-        };
-        Editor.onselectedtilechange = e => {
-         Renderer.setLastStep(e.coordinates);
-         Renderer.drawScene();
-        };
-        Download.onscenechange = e => Renderer.drawBackground();
       });
     </script>
   </head>
   <body>
-    <!-- Renderer -->
-    <div id="layers" class="layers">
-      <canvas class="layer" id="background">
-        This page is useless without canvas.
-      </canvas>
-      <canvas class="layer" id="scene">
-        This page is useless without canvas.
-      </canvas>
-    </div>
     <!-- Editor -->
     <div id="editor"></div>
-    <ul class="centered tool-box">
-      <li class="tool">
-        <table id="coord-hex" class="tool numerical gauge">
-          <caption>Hex Coordinates</caption>
-          <tr><th>x</th><td>0</td><th>y</th><td>0</td></tr>
-        </table>
-      </li>
-      <li class="tool">
-        <table id="coord-mouse" class="tool numerical gauge">
-          <caption>Pix Coordinates</caption>
-          <tr><th>x</th><td>0</td><th>y</th><td>0</td></tr>
-        </table>
-      </li>
-    </ul>
     <!-- Download -->
     <ul class="centered tool-box">
       <li class="tool">

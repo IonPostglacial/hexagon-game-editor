@@ -1,33 +1,51 @@
-define(["lib/hexagon"], (hexagon) => {
+define(["lib/hexagon", "js/hselectbox", "js/coordbox", "js/multilayercanvas", "js/tile", "lib/hexmap"], (hexagon, HSelectBox, CoordBox, MultiLayerCanvas, Tile, HexMap) => {
 "use strict";
 
-const $ = document.querySelector.bind(document);
-const coordMouse = $('#coord-mouse');
-const coordHex = $('#coord-hex');
+const R = React.DOM;
 let lastSelectedCoords = {x: 0, y: 0};
 
-return {
-  ontiletypechange (e) {},
-  onselectedtilechange (e) {},
-  selectedTileType: 0,
-  init (grid) {
-    $('#layers').onmousemove = (e) => {
-      const currentCoords = hexagon.grid.pixelToAxis(grid, e.offsetX, e.offsetY);
-      if (lastSelectedCoords.x !== currentCoords.x || lastSelectedCoords. y !== currentCoords.y) {
-        this.onselectedtilechange ({coordinates: currentCoords});
-        lastSelectedCoords = currentCoords;
-      }
-      coordMouse.rows[0].cells[1].innerHTML = e.offsetX;
-      coordMouse.rows[0].cells[3].innerHTML = e.offsetY;
-      coordHex.rows[0].cells[1].innerHTML = lastSelectedCoords.x;
-      coordHex.rows[0].cells[3].innerHTML = lastSelectedCoords.y;
+return React.createClass({displayName: 'MapEditor',
+  getInitialState () {
+    return {
+      cursorPixCoords: {x: 0, y: 0},
+      cursorHexCoords: {x: 0, y: 0},
+      selectedTileType: 0,
+      width: this.props.width,
+      height: this.props.height,
+      radius: this.props.radius,
+      data: new HexMap(this.props.width, this.props.height, 0)
     };
-
-    $('#layers').onclick = (e) => {
-      const obstacle = hexagon.grid.pixelToAxis(grid, e.offsetX, e.offsetY);
-      if (hexagon.grid.contains(grid, obstacle.x, obstacle.y)) {
-        this.ontiletypechange ({position: obstacle, tileType: this.selectedTileType});
-      }
-    };
+  },
+  handleMouseMove (e) {
+    const event = e.nativeEvent;
+    const hexCoords = hexagon.grid.pixelToAxis(this.state, event.offsetX, event.offsetY);
+    if (hexagon.grid.contains(this.state, hexCoords.x, hexCoords.y)) {
+      this.setState({
+        cursorPixCoords: {x: event.offsetX, y: event.offsetY},
+        cursorHexCoords: {x: hexCoords.x, y: hexCoords.y}
+      });
+    }
+  },
+  handleClick (e) {
+    const event = e.nativeEvent;
+    const obstacle = hexagon.grid.pixelToAxis(this.state, event.offsetX, event.offsetY);
+    if (hexagon.grid.contains(this.state, obstacle.x, obstacle.y)) {
+      const newData = new HexMap(this.state.data.width, this.state.data.height, 0, this.state.data.data);
+      newData.set(obstacle, this.state.selectedTileType);
+      this.setState({data: newData});
+    }
+  },
+  render () {
+    return (
+      R.div({onMouseMove: this.handleMouseMove},
+        React.createElement(MultiLayerCanvas, {onClick: this.handleClick, width: this.state.width, height: this.state.height, radius: this.state.radius, data: this.state.data, selectedTile: this.state.cursorHexCoords}),
+        React.createElement(HSelectBox, {onChange: e => this.setState({selectedTileType: e.value}), data: Tile.types}),
+        R.ul({className: 'centered tool-box'},
+          R.li({className: 'tool'}, React.createElement(CoordBox, {caption: "Pix Coordinates", data: this.state.cursorPixCoords})),
+          R.li({className: 'tool'}, React.createElement(CoordBox, {caption: "Hex Coordinates", data: this.state.cursorHexCoords}))
+        )
+      )
+    );
   }
-}});
+});
+});
