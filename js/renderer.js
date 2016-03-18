@@ -27,17 +27,16 @@ class Renderer {
       for (let color of this.allColors) {
         this.tilesByColor.set(color, []);
       }
-      for (let entry of grid.data) {
-        let pos = entry[0], tile = entry[1];
+      for (let [pos, tile] of grid.data) {
         if (tile !== null) {
           const obstacleCoord = hexagon.grid.axisToPixel(grid, pos.x, pos.y);
           this.tilesByColor.get(Tile.types[tile].color).push(obstacleCoord);
         }
       }
-      for (let colorPosition of this.tilesByColor) {
+      for (let [color, position] of this.tilesByColor) {
         bgCtx.beginPath();
-        bgCtx.fillStyle = colorPosition[0];
-        for (let pos of colorPosition[1]) {
+        bgCtx.fillStyle = color;
+        for (let pos of position) {
           hexagon.path(bgCtx, pos, grid.radius);
         }
         bgCtx.fill();

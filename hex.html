@@ -12,9 +12,6 @@
         (Editor, Download, HexMap) => {
         "use strict";
 
-        const GRID = {width: 14, height:12, radius: 32, data: new HexMap(14, 12, 0)};
-
-        Download.init(GRID);
         ReactDOM.render(
           React.createElement(Editor, {width: 14, height:12, radius: 32}),
           document.getElementById('editor')
@@ -25,23 +22,5 @@
   <body>
     <!-- Editor -->
     <div id="editor"></div>
-    <!-- Download -->
-    <ul class="centered tool-box">
-      <li class="tool">
-        <a class="btn" id="download-scene" href="#" download><i class="fa fa-pull-left fa-download fa-lg"></i>Download current stage</a>
-      </li>
-      <li class="tool">
-        <a class="btn" id="upload-scene" href="#"><i class="fa fa-pull-left fa-upload fa-lg"></i>Upload a stage</a>
-      </li>
-      <li class="tool">
-        <a class="btn" id="save-scene" href="#"><i class="fa fa-pull-left fa-floppy-o fa-lg"></i>Save current stage</a>
-      </li>
-      <li class="tool">
-        <a class="btn" id="load-scene" href="#"><i class="fa fa-pull-left fa-folder-open-o fa-lg"></i>Load stage</a>
-      </li>
-    </ul>
-    <form id="hidden-form">
-      <input type="file" id="uploaded" />
-    </form>
   </body>
 </html>

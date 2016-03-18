@@ -19,7 +19,7 @@ return React.createClass({displayName: 'MultiLayerCanvas',
     const pixWidth = hexagon.grid.pixelWidth(this.props);
     const pixHeight = hexagon.grid.pixelHeight(this.props);
     return (
-      R.div({onClick: this.props.onClick, ref: layers => this._layers = layers, style: {width: pixWidth, height: pixHeight}, className: 'layers'},
+      R.div({onClick: this.props.onClick, onMouseMove: this.props.onMouseMove, ref: layers => this._layers = layers, style: {width: pixWidth, height: pixHeight}, className: 'layers'},
         R.canvas({className: 'layer', width: pixWidth, height: pixHeight}, "This page is useless without canvas"),
         R.canvas({className: 'layer', width: pixWidth, height: pixHeight}, "This page is useless without canvas")
       )

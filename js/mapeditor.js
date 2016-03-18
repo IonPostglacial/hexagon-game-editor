@@ -1,4 +1,5 @@
-define(["lib/hexagon", "js/hselectbox", "js/coordbox", "js/multilayercanvas", "js/tile", "lib/hexmap"], (hexagon, HSelectBox, CoordBox, MultiLayerCanvas, Tile, HexMap) => {
+define(["lib/hexagon", "js/hselectbox", "js/coordbox", "js/multilayercanvas", "js/download", "js/tile", "lib/hexmap"],
+  (hexagon, HSelectBox, CoordBox, MultiLayerCanvas, Download, Tile, HexMap) => {
 "use strict";
 
 const R = React.DOM;
@@ -34,15 +35,20 @@ return React.createClass({displayName: 'MapEditor',
       this.setState({data: newData});
     }
   },
+  handleSceneChange (e) {
+    const { width, height, radius, data } = e.scene;
+    this.setState({ width, height, radius, data });
+  },
   render () {
     return (
-      R.div({onMouseMove: this.handleMouseMove},
-        React.createElement(MultiLayerCanvas, {onClick: this.handleClick, width: this.state.width, height: this.state.height, radius: this.state.radius, data: this.state.data, selectedTile: this.state.cursorHexCoords}),
+      R.div(null,
+        React.createElement(MultiLayerCanvas, {onMouseMove: this.handleMouseMove, onClick: this.handleClick, width: this.state.width, height: this.state.height, radius: this.state.radius, data: this.state.data, selectedTile: this.state.cursorHexCoords}),
         React.createElement(HSelectBox, {onChange: e => this.setState({selectedTileType: e.value}), data: Tile.types}),
         R.ul({className: 'centered tool-box'},
           R.li({className: 'tool'}, React.createElement(CoordBox, {caption: "Pix Coordinates", data: this.state.cursorPixCoords})),
           R.li({className: 'tool'}, React.createElement(CoordBox, {caption: "Hex Coordinates", data: this.state.cursorHexCoords}))
-        )
+        ),
+        React.createElement(Download, {onSceneChange: this.handleSceneChange, grid: {width: this.state.width, height: this.state.height, radius: this.state.radius, data: this.state.data}})
       )
     );
   }
