@@ -11,10 +11,10 @@ return React.createClass({displayName: 'MapEditor',
       cursorPixCoords: new Point({x: 0, y: 0}),
       cursorHexCoords: new Point({x: 0, y: 0}),
       selectedTileType: 0,
-      width: this.props.width,
-      height: this.props.height,
-      radius: this.props.radius,
-      data: new HexMap(this.props.width, this.props.height, 0)
+      width: this.props.initialWidth,
+      height: this.props.initialHeight,
+      radius: this.props.initialRadius,
+      data: new HexMap(this.props.initialWidth, this.props.initialHeight, 0)
     };
   },
   handleMouseMove (e) {
