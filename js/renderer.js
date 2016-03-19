@@ -17,17 +17,17 @@ class Renderer {
       if (!hexagon.grid.contains(grid, pos.x, pos.y)) {
         return false;
       }
-      return grid.data.get(pos) === null || !Tile.types[grid.data.get(pos)].obstacle;
+      return grid.tiles.get(pos) === null || !Tile.types[grid.tiles.get(pos)].obstacle;
     });
   }
 
   drawBackground (bgCtx, grid) {
-    if (!grid.data || this.lastData === grid.data) { return; }
-    this.lastData = grid.data;
+    if (!grid.tiles || this.lastData === grid.tiles) { return; }
+    this.lastData = grid.tiles;
     for (let color of this.allColors) {
       this.tilesByColor.set(color, []);
     }
-    for (let [pos, tile] of grid.data) {
+    for (let [pos, tile] of grid.tiles) {
       if (tile !== null) {
         const obstacleCoord = hexagon.grid.axisToPixel(grid, pos.x, pos.y);
         this.tilesByColor.get(Tile.types[tile].color).push(obstacleCoord);

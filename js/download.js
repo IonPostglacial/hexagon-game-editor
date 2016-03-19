@@ -4,17 +4,17 @@ const R = React.DOM;
 
 function gridToJson (grid) {
   const valueGrid = Object.assign({}, grid);
-  valueGrid.data = String.fromCharCode(...valueGrid.data.data);
+  valueGrid.tiles = String.fromCharCode(...grid.tiles.data);
   return JSON.stringify(valueGrid);
 }
 
 function gridFromJson (json) {
   const grid = JSON.parse(json);
-  const data = new Array(grid.data.length);
-  for (let i = 0; i < grid.data.length; i++) {
-      data[i] = grid.data.charCodeAt(i);
+  const tiles = new Array(grid.tiles.length);
+  for (let i = 0; i < grid.tiles.length; i++) {
+      tiles[i] = grid.tiles.charCodeAt(i);
   }
-  grid.data = new HexMap(grid.width, grid.height, 0, data);
+  grid.tiles = new HexMap(grid.width, grid.height, 0, tiles);
   return grid;
 }
 
