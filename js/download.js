@@ -1,16 +1,26 @@
-define(["lib/hexmap"], function (HexMap) {
+define(["lib/hexmap", "lib/hexagon"], function (HexMap, hexagon) {
 "use strict";
 const R = React.DOM;
 
 function gridToJson (grid) {
   const valueGrid = Object.assign({}, grid);
-  valueGrid.tiles = grid.tiles.data;
+  const data = [];
+  for (let coord of hexagon.grid.allCoords(grid)) {
+    data.push(grid.tiles.get(coord));
+  }
+  valueGrid.tiles = data;
   return JSON.stringify(valueGrid);
 }
 
 function gridFromJson (json) {
   const grid = JSON.parse(json);
-  grid.tiles = new HexMap(grid.width, grid.height, 0, grid.tiles);
+  const tiles = new HexMap(grid.width, grid.height, 0);
+  let i = 0;
+  for (let coord of hexagon.grid.allCoords(grid)) {
+    tiles.set(coord, grid.tiles[i]);
+    i++;
+  }
+  grid.tiles = tiles;
   return grid;
 }
 
