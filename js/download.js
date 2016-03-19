@@ -1,6 +1,7 @@
-define(["lib/hexmap", "lib/hexagon"], function (HexMap, hexagon) {
+define(["lib/immutable", "lib/hexagon"], function (Immutable, hexagon) {
 "use strict";
 const R = React.DOM;
+const Point = Immutable.Record({x: 0, y: 0});
 
 function gridToJson (grid) {
   const valueGrid = Object.assign({}, grid);
@@ -14,12 +15,13 @@ function gridToJson (grid) {
 
 function gridFromJson (json) {
   const grid = JSON.parse(json);
-  const tiles = new HexMap(grid.width, grid.height, 0);
-  let i = 0;
-  for (let coord of hexagon.grid.allCoords(grid)) {
-    tiles.set(coord, grid.tiles[i]);
-    i++;
-  }
+  const tiles = Immutable.Map().withMutations(map => {
+    let i = 0;
+    for (let coord of hexagon.grid.allCoords({width: grid.width, height: grid.height})) {
+      map.set(new Point(coord), grid.tiles[i]);
+      i++;
+    }
+  });
   grid.tiles = tiles;
   return grid;
 }

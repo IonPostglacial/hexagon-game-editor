@@ -1,5 +1,5 @@
-define(["lib/hexagon", "lib/immutable", "lib/hexmap", "js/hselectbox", "js/coordbox", "js/multilayercanvas", "js/download", "js/tile"],
-  (hexagon, Immutable, HexMap, HSelectBox, CoordBox, MultiLayerCanvas, Download, Tile) => {
+define(["lib/hexagon", "lib/immutable", "js/hselectbox", "js/coordbox", "js/multilayercanvas", "js/download", "js/tile"],
+  (hexagon, Immutable, HSelectBox, CoordBox, MultiLayerCanvas, Download, Tile) => {
 "use strict";
 
 const R = React.DOM;
@@ -7,6 +7,11 @@ const Point = Immutable.Record({x: 0, y: 0});
 
 return React.createClass({displayName: 'MapEditor',
   getInitialState () {
+    const tilesMap = Immutable.Map().withMutations(map => {
+      for (let coord of hexagon.grid.allCoords({width: this.props.initialWidth, height: this.props.initialHeight})) {
+        map.set(new Point(coord), 0);
+      }
+    });
     return {
       cursorPixCoords: new Point({x: 0, y: 0}),
       cursorHexCoords: new Point({x: 0, y: 0}),
@@ -14,7 +19,7 @@ return React.createClass({displayName: 'MapEditor',
       width: this.props.initialWidth,
       height: this.props.initialHeight,
       radius: this.props.initialRadius,
-      tiles: new HexMap(this.props.initialWidth, this.props.initialHeight, 0)
+      tiles: tilesMap
     };
   },
   handleMouseMove (e) {
@@ -31,9 +36,7 @@ return React.createClass({displayName: 'MapEditor',
     const event = e.nativeEvent;
     const obstacle = hexagon.grid.pixelToAxis(this.state, event.offsetX, event.offsetY);
     if (hexagon.grid.contains(this.state, obstacle.x, obstacle.y)) {
-      const newData = HexMap.fromMap(this.state.tiles, 0);
-      newData.set(obstacle, this.state.selectedTileType);
-      this.setState({tiles: newData});
+      this.setState({tiles: this.state.tiles.set(new Point(obstacle), this.state.selectedTileType)});
     }
   },
   handleSceneChange (e) {
