@@ -1,14 +1,15 @@
-define(["lib/hexagon", "js/hselectbox", "js/coordbox", "js/multilayercanvas", "js/download", "js/tile", "lib/hexmap"],
-  (hexagon, HSelectBox, CoordBox, MultiLayerCanvas, Download, Tile, HexMap) => {
+define(["lib/hexagon", "lib/immutable", "lib/hexmap", "js/hselectbox", "js/coordbox", "js/multilayercanvas", "js/download", "js/tile"],
+  (hexagon, Immutable, HexMap, HSelectBox, CoordBox, MultiLayerCanvas, Download, Tile) => {
 "use strict";
 
 const R = React.DOM;
+const Point = Immutable.Record({x: 0, y: 0});
 
 return React.createClass({displayName: 'MapEditor',
   getInitialState () {
     return {
-      cursorPixCoords: {x: 0, y: 0},
-      cursorHexCoords: {x: 0, y: 0},
+      cursorPixCoords: new Point({x: 0, y: 0}),
+      cursorHexCoords: new Point({x: 0, y: 0}),
       selectedTileType: 0,
       width: this.props.width,
       height: this.props.height,
@@ -21,8 +22,8 @@ return React.createClass({displayName: 'MapEditor',
     const hexCoords = hexagon.grid.pixelToAxis(this.state, event.offsetX, event.offsetY);
     if (hexagon.grid.contains(this.state, hexCoords.x, hexCoords.y)) {
       this.setState({
-        cursorPixCoords: {x: event.offsetX, y: event.offsetY},
-        cursorHexCoords: {x: hexCoords.x, y: hexCoords.y}
+        cursorPixCoords: new Point({x: event.offsetX, y: event.offsetY}),
+        cursorHexCoords: new Point(hexCoords)
       });
     }
   },
@@ -45,8 +46,8 @@ return React.createClass({displayName: 'MapEditor',
         React.createElement(MultiLayerCanvas, {onMouseMove: this.handleMouseMove, onClick: this.handleClick, width: this.state.width, height: this.state.height, radius: this.state.radius, data: this.state.data, selectedTile: this.state.cursorHexCoords}),
         React.createElement(HSelectBox, {onChange: e => this.setState({selectedTileType: e.value}), data: Tile.types}),
         R.ul({className: 'centered tool-box'},
-          R.li({className: 'tool'}, React.createElement(CoordBox, {caption: "Pix Coordinates", data: this.state.cursorPixCoords})),
-          R.li({className: 'tool'}, React.createElement(CoordBox, {caption: "Hex Coordinates", data: this.state.cursorHexCoords}))
+          R.li({className: 'tool'}, React.createElement(CoordBox, {caption: "Pix Coordinates", data: this.state.cursorPixCoords.toObject()})),
+          R.li({className: 'tool'}, React.createElement(CoordBox, {caption: "Hex Coordinates", data: this.state.cursorHexCoords.toObject()}))
         ),
         React.createElement(Download, {onSceneChange: this.handleSceneChange, grid: {width: this.state.width, height: this.state.height, radius: this.state.radius, data: this.state.data}})
       )
