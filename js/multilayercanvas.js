@@ -1,5 +1,8 @@
-define(["lib/hexagon", "js/renderer"], (hexagon, Renderer) => {
-"use strict";
+define(require => { "use strict";
+
+const hexagon  = require('lib/hexagon');
+const Renderer = require('js/renderer');
+
 const R = React.DOM;
 
 return React.createClass({displayName: 'MultiLayerCanvas',

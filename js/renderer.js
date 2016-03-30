@@ -1,5 +1,10 @@
-define(["lib/hexagon", "lib/pathfinding", "js/tile"], (hexagon, PF, Tile) => {
-"use strict";
+define(require => { "use strict";
+
+const hexagon   = require('lib/hexagon');
+const PF        = require('lib/pathfinding');
+const Tile      = require('js/tile');
+const Immutable = require('lib/immutable');
+const Point = Immutable.Record({x: 0, y: 0});
 
 class Renderer {
   constructor (firstStep, lastStep) {
@@ -13,10 +18,11 @@ class Renderer {
 
   setLastStep (grid, newLastStep) {
     this.lastStep = newLastStep;
-    this.path = PF.shortestPathBetween(this.firstStep, this.lastStep, PF.hexDistance, (pos) => {
-      if (!hexagon.grid.contains(grid, pos.x, pos.y)) {
+    this.path = PF.shortestPathBetween(this.firstStep, this.lastStep, PF.hexDistance, p => {
+      if (!hexagon.grid.contains(grid, p.x, p.y)) {
         return false;
       }
+      const pos = new Point(p);
       return grid.tiles.get(pos) === null || !Tile.types[grid.tiles.get(pos)].obstacle;
     });
   }

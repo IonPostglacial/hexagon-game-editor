@@ -1,6 +1,12 @@
-define(["lib/hexagon", "lib/immutable", "js/hselectbox", "js/coordbox", "js/multilayercanvas", "js/download", "js/tile"],
-  (hexagon, Immutable, HSelectBox, CoordBox, MultiLayerCanvas, Download, Tile) => {
-"use strict";
+define(require => { "use strict";
+
+const hexagon          = require('lib/hexagon');
+const Immutable        = require('lib/immutable');
+const HSelectBox       = require('js/hselectbox');
+const CoordBox         = require('js/coordbox');
+const MultiLayerCanvas = require('js/multilayercanvas');
+const Download         = require('js/download');
+const Tile             = require('js/tile');
 
 const R = React.DOM;
 const Point = Immutable.Record({x: 0, y: 0});

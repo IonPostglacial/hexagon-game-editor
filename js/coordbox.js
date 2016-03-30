@@ -1,5 +1,5 @@
-define(function () {
-"use strict";
+define(require => { "use strict";
+
 const R = React.DOM;
 
 return React.createClass({displayName: 'CoordBox',

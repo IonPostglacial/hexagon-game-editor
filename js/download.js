@@ -1,5 +1,8 @@
-define(["lib/immutable", "lib/hexagon"], function (Immutable, hexagon) {
-"use strict";
+define(require => { "use strict";
+
+const Immutable = require('lib/immutable');
+const hexagon   = require('lib/hexagon');
+
 const R = React.DOM;
 const Point = Immutable.Record({x: 0, y: 0});
 
