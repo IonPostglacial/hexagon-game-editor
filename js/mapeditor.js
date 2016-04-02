@@ -52,8 +52,12 @@ return React.createClass({displayName: 'MapEditor',
   render () {
     return (
       R.div(null,
-        React.createElement(Download, {onSceneChange: this.handleSceneChange, grid: {width: this.state.width, height: this.state.height, radius: this.state.radius, tiles: this.state.tiles}}),
-        React.createElement(MultiLayerCanvas, {onMouseMove: this.handleMouseMove, onClick: this.handleClick, width: this.state.width, height: this.state.height, radius: this.state.radius, tiles: this.state.tiles, selectedTile: this.state.cursorHexCoords}),
+        React.createElement(Download, {onSceneChange: this.handleSceneChange,
+          grid: {width: this.state.width, height: this.state.height, radius: this.state.radius, tiles: this.state.tiles}}),
+        R.div({className: 'scene'},
+          React.createElement(MultiLayerCanvas, {onMouseMove: this.handleMouseMove, onClick: this.handleClick,width: this.state.width, height: this.state.height,
+            radius: this.state.radius, tiles: this.state.tiles, selectedTile: this.state.cursorHexCoords, selectedTileType: this.state.selectedTileType})
+        ),
         React.createElement(HSelectBox, {onChange: e => this.setState({selectedTileType: e.value}), data: Tile.types}),
         R.ul({className: 'centered tool-box'},
           R.li({className: 'tool'}, React.createElement(CoordBox, {caption: "Pix Coordinates", data: this.state.cursorPixCoords.toObject()})),

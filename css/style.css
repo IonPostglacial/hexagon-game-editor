@@ -6,11 +6,15 @@ body {
   width: 80%;
 }
 
+.scene {
+  background-color: #DDD;
+  box-shadow: inset 0px 0px 8px 0px #999;
+}
+
 .layers {
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .layer {

@@ -9,10 +9,10 @@ return React.createClass({displayName: 'MultiLayerCanvas',
   componentDidMount () {
     this.bgCtx = this._layers.children[0].getContext('2d');
     this.ctx = this._layers.children[1].getContext("2d");
-    this.renderer = new Renderer(this.props.selectedTile, this.props.selectedTile);
+    this.renderer = new Renderer(this.props.selectedTile, this.props.selectedTileType);
     this.drawScene = function () {
       this.renderer.drawBackground(this.bgCtx, this.props);
-      this.renderer.drawScene(this.ctx, this.props, this.props.selectedTile);
+      this.renderer.drawScene(this.ctx, this.props, this.props.selectedTile, this.props.selectedTileType);
     };
     this.drawScene();
   },

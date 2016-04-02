@@ -7,24 +7,13 @@ const Immutable = require('lib/immutable');
 const Point = Immutable.Record({x: 0, y: 0});
 
 class Renderer {
-  constructor (firstStep, lastStep) {
+  constructor (selectedPosition, selectedTileType) {
     this.allColors = Tile.types.map(prop => prop.color);
     this.tilesByColor = new Map();
-    this.firstStep = firstStep;
-    this.lastStep = lastStep;
+    this.selectedPosition = selectedPosition;
+    this.selectedTileType = selectedTileType;
     this.lastData = null;
     this.path = [];
-  }
-
-  setLastStep (grid, newLastStep) {
-    this.lastStep = newLastStep;
-    this.path = PF.shortestPathBetween(this.firstStep, this.lastStep, PF.hexDistance, p => {
-      if (!hexagon.grid.contains(grid, p.x, p.y)) {
-        return false;
-      }
-      const pos = new Point(p);
-      return grid.tiles.get(pos) === null || !Tile.types[grid.tiles.get(pos)].obstacle;
-    });
   }
 
   drawBackground (bgCtx, grid) {
@@ -50,22 +39,19 @@ class Renderer {
     hexagon.grid.draw(bgCtx, grid, "rgb(150, 150, 150)");
   }
 
-  drawScene (ctx, grid, selectedTilePosition) {
-    if (this.lastStep === selectedTilePosition) { return; }
-    this.setLastStep(grid, selectedTilePosition);
+  drawScene (ctx, grid, selectedTilePosition, selectedTileType) {
+    if (this.selectedPosition === selectedTilePosition && this.selectedTileType === selectedTileType) { return; }
+    this.selectedPosition = selectedTilePosition;
+    this.selectedTileType = selectedTileType;
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.beginPath();
     ctx.strokeStyle = "rgb(0, 255, 0)";
-    for (let step of this.path) {
-      const stepCoord = hexagon.grid.axisToPixel(grid, step.x, step.y);
-      hexagon.path(ctx, stepCoord, grid.radius);
-    }
+    hexagon.path(ctx, hexagon.grid.axisToPixel(grid, selectedTilePosition.x, selectedTilePosition.y), grid.radius);
     ctx.stroke();
     ctx.beginPath();
-    ctx.strokeStyle = "rgb(255, 0, 0)";
-    hexagon.path(ctx, hexagon.grid.axisToPixel(grid, this.firstStep.x, this.firstStep.y), grid.radius);
-    hexagon.path(ctx, hexagon.grid.axisToPixel(grid, this.lastStep.x, this.lastStep.y), grid.radius);
-    ctx.stroke();
+    ctx.fillStyle = Tile.types[selectedTileType].color;
+    hexagon.path(ctx, hexagon.grid.axisToPixel(grid, selectedTilePosition.x, selectedTilePosition.y), grid.radius);
+    ctx.fill();
   }
 }
 
