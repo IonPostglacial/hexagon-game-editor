@@ -2,8 +2,8 @@ define(require => { "use strict";
 
 const hexagon          = require('lib/hexagon');
 const Immutable        = require('lib/immutable');
-const HSelectBox       = require('js/hselectbox');
-const CoordBox         = require('js/coordbox');
+const HSelectBox       = require('lib/components/hselectbox');
+const CoordBox         = require('lib/components/coordbox');
 const MultiLayerCanvas = require('js/multilayercanvas');
 const Download         = require('js/download');
 const Tile             = require('js/tile');
@@ -52,13 +52,13 @@ return React.createClass({displayName: 'MapEditor',
   render () {
     return (
       R.div(null,
+        React.createElement(Download, {onSceneChange: this.handleSceneChange, grid: {width: this.state.width, height: this.state.height, radius: this.state.radius, tiles: this.state.tiles}}),
         React.createElement(MultiLayerCanvas, {onMouseMove: this.handleMouseMove, onClick: this.handleClick, width: this.state.width, height: this.state.height, radius: this.state.radius, tiles: this.state.tiles, selectedTile: this.state.cursorHexCoords}),
         React.createElement(HSelectBox, {onChange: e => this.setState({selectedTileType: e.value}), data: Tile.types}),
         R.ul({className: 'centered tool-box'},
           R.li({className: 'tool'}, React.createElement(CoordBox, {caption: "Pix Coordinates", data: this.state.cursorPixCoords.toObject()})),
           R.li({className: 'tool'}, React.createElement(CoordBox, {caption: "Hex Coordinates", data: this.state.cursorHexCoords.toObject()}))
-        ),
-        React.createElement(Download, {onSceneChange: this.handleSceneChange, grid: {width: this.state.width, height: this.state.height, radius: this.state.radius, tiles: this.state.tiles}})
+        )
       )
     );
   }

@@ -6,100 +6,13 @@ body {
   width: 80%;
 }
 
-#hidden-form {
-  display: none;
-}
-
 .layers {
-    position: relative;
-    margin-left: auto;
-    margin-right: auto;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .layer {
-    position: absolute;
-    x: 0;
-    y: 0;
-}
-
-.tool-box {
-  display: flex;
-  justify-content: flex-start;
-  height: 64px;
-}
-
-.tool-box.centered {
-  justify-content: center;
-}
-
-ul.tool-box {
-  list-style-type: none;
-}
-
-.tool {
-  align-self: center;
-}
-
-.btn {
-  display: inline-block;
-  color: black;
-  padding: 8px;
-  border-radius: 4px;
-  background: rgb(210, 210, 210);
-  margin: 4px;
-  text-decoration: none;
-  border: 1px rgba(0, 0, 0, 0.33) solid;
-}
-
-.btn:hover {
-  background: rgb(215, 215, 215);
-}
-
-.btn:active {
-  background: rgb(205, 205, 205);
-}
-
-
-.btn [type="radio"] {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px; margin: -1px;
-  overflow: hidden;
-  padding: 0;
   position: absolute;
-  width: 1px;
-}
-
-.btn [type="radio"]:checked + span {
-    background-color: rgba(90, 90, 90, 0.20);
-    display: inline-block;
-    margin: -8px;
-    padding: 8px;
-}
-
-table.gauge {
-  display: inline-table;
-  border: 2px solid black;
-  border-style: solid;
-  border-collapse: collapse;
-  margin: 4px;
-}
-
-table.gauge td, table.gauge th {
-  padding: 2px;
-}
-
-table.gauge.numerical td {
-  border: 1px solid black;
-}
-
-table.gauge.numerical td {
-  background-color: white;
-  min-width: 3em;
-  text-align: right;
-}
-
-table.gauge th {
-  background-color: #2196F3;
-  color: white;
 }

@@ -1,7 +1,8 @@
 define(require => { "use strict";
 
-const Immutable = require('lib/immutable');
-const hexagon   = require('lib/hexagon');
+const PushButton = require('lib/components/pushbutton');
+const Immutable  = require('lib/immutable');
+const hexagon    = require('lib/hexagon');
 
 const R = React.DOM;
 const Point = Immutable.Record({x: 0, y: 0});
@@ -28,21 +29,6 @@ function gridFromJson (json) {
   grid.tiles = tiles;
   return grid;
 }
-
-const PushButton = React.createClass({displayName: 'PushButton',
-  render () {
-    const linkAttributes = {className: 'btn', href: this.props.href, onClick: this.props.onClick};
-    if (this.props.download) {
-      linkAttributes.download = this.props.download;
-    }
-    return (
-      R.a(linkAttributes,
-        R.i({className: 'fa fa-pull-left fa-lg ' + this.props.icon}),
-        this.props.text
-      )
-    );
-  }
-});
 
 return React.createClass({displayName: 'Download',
   getInitialState () {
