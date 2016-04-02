@@ -11,7 +11,7 @@ function gridToJson (grid) {
   const valueGrid = Object.assign({}, grid);
   const data = [];
   for (let coord of hexagon.grid.allCoords(grid)) {
-    data.push(grid.tiles.get(coord));
+    data.push(grid.tiles.get(new Point(coord)));
   }
   valueGrid.tiles = data;
   return JSON.stringify(valueGrid);
