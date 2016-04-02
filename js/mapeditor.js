@@ -4,6 +4,7 @@ const hexagon          = require('lib/hexagon');
 const Immutable        = require('lib/immutable');
 const HSelectBox       = require('lib/components/hselectbox');
 const CoordBox         = require('lib/components/coordbox');
+const PushButton       = require('lib/components/pushbutton');
 const MultiLayerCanvas = require('js/multilayercanvas');
 const Download         = require('js/download');
 const Tile             = require('js/tile');
@@ -12,6 +13,10 @@ const R = React.DOM;
 const Point = Immutable.Record({x: 0, y: 0});
 
 return React.createClass({displayName: 'MapEditor',
+  tilesHistory: [],
+  componentDidMount () {
+    document.addEventListener('keydown', this.handleKeyPress);
+  },
   getInitialState () {
     const tilesMap = Immutable.Map().withMutations(map => {
       for (let coord of hexagon.grid.allCoords({width: this.props.initialWidth, height: this.props.initialHeight})) {
@@ -41,9 +46,24 @@ return React.createClass({displayName: 'MapEditor',
   handleClick (e) {
     const event = e.nativeEvent;
     const obstacle = hexagon.grid.pixelToAxis(this.state, event.offsetX, event.offsetY);
+    const newTiles = this.state.tiles.set(new Point(obstacle), this.state.selectedTileType);
     if (hexagon.grid.contains(this.state, obstacle.x, obstacle.y)) {
-      this.setState({tiles: this.state.tiles.set(new Point(obstacle), this.state.selectedTileType)});
+      this.tilesHistory.push(this.state.tiles);
+      this.setState({tiles: newTiles});
     }
+  },
+  handleKeyPress (e) {
+    if (e.ctrlKey) {
+      switch (e.which) {
+      case 90: // ctrl+z
+        const previousTiles = this.tilesHistory.pop();
+        if (previousTiles !== undefined) {
+          this.setState({tiles: previousTiles});
+        }
+        break;
+      }
+    }
+
   },
   handleSceneChange (e) {
     const { width, height, radius, tiles } = e.scene;
@@ -55,8 +75,9 @@ return React.createClass({displayName: 'MapEditor',
         React.createElement(Download, {onSceneChange: this.handleSceneChange,
           grid: {width: this.state.width, height: this.state.height, radius: this.state.radius, tiles: this.state.tiles}}),
         R.div({className: 'scene'},
-          React.createElement(MultiLayerCanvas, {onMouseMove: this.handleMouseMove, onClick: this.handleClick,width: this.state.width, height: this.state.height,
-            radius: this.state.radius, tiles: this.state.tiles, selectedTile: this.state.cursorHexCoords, selectedTileType: this.state.selectedTileType})
+          React.createElement(MultiLayerCanvas, {onMouseMove: this.handleMouseMove, onClick: this.handleClick,
+            width: this.state.width, height: this.state.height, radius: this.state.radius, tiles: this.state.tiles,
+            selectedTile: this.state.cursorHexCoords, selectedTileType: this.state.selectedTileType})
         ),
         React.createElement(HSelectBox, {onChange: e => this.setState({selectedTileType: e.value}), data: Tile.types}),
         R.ul({className: 'centered tool-box'},
