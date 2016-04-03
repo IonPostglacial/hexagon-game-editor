@@ -11,11 +11,19 @@ const Tile             = require('js/tile');
 
 const R = React.DOM;
 const Point = Immutable.Record({x: 0, y: 0});
+const $ = document.querySelector.bind(document);
+const $all = document.querySelectorAll.bind(document);
 
 return React.createClass({displayName: 'MapEditor',
   tilesHistory: [],
   componentDidMount () {
     document.addEventListener('keydown', this.handleKeyPress);
+    function adaptSceneHeight (e) {
+      const totalToolboxesHeight = Array.prototype.map.call($all('.main-view > .tool-box'), bar => bar.offsetHeight).reduce((h1, h2) => h1 + h2);
+      $('.scene').style.height = window.innerHeight - totalToolboxesHeight + "px";
+    }
+    window.addEventListener('resize', adaptSceneHeight);
+    adaptSceneHeight();
   },
   getInitialState () {
     const tilesMap = Immutable.Map().withMutations(map => {
@@ -71,7 +79,7 @@ return React.createClass({displayName: 'MapEditor',
   },
   render () {
     return (
-      R.div(null,
+      R.div({className: 'main-view'},
         React.createElement(Download, {onSceneChange: this.handleSceneChange,
           grid: {width: this.state.width, height: this.state.height, radius: this.state.radius, tiles: this.state.tiles}}),
         R.div({className: 'scene'},
