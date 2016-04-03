@@ -6,7 +6,7 @@ const HSelectBox       = require('lib/components/hselectbox');
 const CoordBox         = require('lib/components/coordbox');
 const PushButton       = require('lib/components/pushbutton');
 const MultiLayerCanvas = require('js/multilayercanvas');
-const Download         = require('js/download');
+const ActionBar        = require('js/actionbar');
 const Tile             = require('js/tile');
 
 const R = React.DOM;
@@ -80,7 +80,7 @@ return React.createClass({displayName: 'MapEditor',
   render () {
     return (
       R.div({className: 'main-view'},
-        React.createElement(Download, {onSceneChange: this.handleSceneChange,
+        React.createElement(ActionBar, {onSceneChange: this.handleSceneChange,
           grid: {width: this.state.width, height: this.state.height, radius: this.state.radius, tiles: this.state.tiles}}),
         R.div({className: 'scene'},
           React.createElement(MultiLayerCanvas, {onMouseMove: this.handleMouseMove, onClick: this.handleClick,

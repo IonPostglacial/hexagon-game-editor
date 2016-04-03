@@ -1,6 +1,8 @@
 define(require => { "use strict";
 
 const PushButton = require('lib/components/pushbutton');
+const Popover    = require('lib/components/popover');
+const MenuEntry  = require('lib/components/menuentry');
 const Immutable  = require('lib/immutable');
 const hexagon    = require('lib/hexagon');
 
@@ -30,7 +32,7 @@ function gridFromJson (json) {
   return grid;
 }
 
-return React.createClass({displayName: 'Download',
+return React.createClass({displayName: 'ActionBar',
   getInitialState () {
     return { downloadLink: null };
   },
@@ -69,13 +71,18 @@ return React.createClass({displayName: 'Download',
             href: this.state.downloadLink, download: "scene.json", onClick: this.handleDownload})
         ),
         R.li({className: 'tool'},
-          React.createElement(PushButton, {icon: 'fa-upload', text: "Upload a stage", onClick: this.handleUpload})
+          React.createElement(PushButton, {icon: 'fa-clone', text: "Snapshot", onClick: this.handleSave})
         ),
         R.li({className: 'tool'},
-          React.createElement(PushButton, {icon: 'fa-floppy-o', text: "Save current stage", onClick: this.handleSave})
+          React.createElement(PushButton, {icon: 'fa-undo', text: "Restore", onClick: this.handleLoad})
         ),
+
         R.li({className: 'tool'},
-          React.createElement(PushButton, {icon: 'fa-folder-open-o', text: "Load stage", onClick: this.handleLoad})
+          React.createElement(Popover, {label: "Load"},
+            React.createElement(MenuEntry, {label: "Stage", onClick: this.handleUpload}),
+            React.createElement(MenuEntry, {label: "Tileset"}),
+            React.createElement(MenuEntry, {label: "Components"})
+          )
         )
       )
     );
