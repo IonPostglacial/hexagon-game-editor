@@ -1,7 +1,25 @@
+:root {
+  /* colors */
+  --main-color: #ccc;
+  --main-text-color: #000;
+  --accent-color: #2196F3;
+  --accent-text-color: #fff;
+  --main-color-lighter: #ddd;
+  --text-area-bg-color: #ddd;
+  --widget-color: rgba(200, 200, 200, 0.7);
+  --widget-border-color: rgba(0, 0, 0, 0.33);
+  --widget-hover-color: rgba(210, 210, 210, 0.7);
+  --widget-pressed-color: rgba(150, 150, 150, 0.7);
+  /* placement */
+  --default-rounding: 4px;
+  --default-margin: 4px;
+  --widget-padding: 8px;
+}
+
 .tool-box {
   display: flex;
-  border: solid 1px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(to bottom, #ddd 0%,#ccc 20%);
+  border: solid 1px var(--widget-border-color);
+  background: linear-gradient(to bottom, var(--main-color-lighter) 0%, var(--main-color) 20%);
   margin: 0px;
 }
 
@@ -25,12 +43,12 @@ ul.tool-box {
 .btn {
   display: inline-block;
   color: black;
-  padding: 8px;
-  border-radius: 4px;
-  background: rgb(210, 210, 210);
-  margin: 4px;
+  padding: var(--widget-padding);
+  border-radius: var(--default-rounding);
+  background: var(--widget-color);
+  margin: var(--default-margin);
   text-decoration: none;
-  border: 1px rgba(0, 0, 0, 0.33) solid;
+  border: 1px var(--widget-border-color) solid;
 }
 
 .btn-group {
@@ -40,25 +58,17 @@ ul.tool-box {
 fieldset .btn, .btn-group .btn {
   margin: 0px;
   border-radius: 0px;
-  border: 1px rgba(0, 0, 0, 0.33) solid;
+  border: 1px var(--widget-border-color) solid;
 }
 
 fieldset .btn:first-child, .btn-group li:first-child .btn {
-  margin: 4px 0px 0px 4px;
-  border-radius: 4px 0px 0px 4px;
+  margin: var(--default-margin) 0px 0px var(--default-margin);
+  border-radius: var(--default-rounding) 0px 0px var(--default-rounding);
 }
 
 fieldset .btn:last-child, .btn-group li:last-child .btn {
-  margin: 0px 4px 4px 0px;
-  border-radius: 0px 4px 4px 0px;
-}
-
-.btn:hover {
-  background: rgb(215, 215, 215);
-}
-
-.btn:active {
-  background: rgb(205, 205, 205);
+  margin: 0px var(--default-rounding) var(--default-rounding) 0px;
+  border-radius: 0px var(--default-rounding) var(--default-rounding) 0px;
 }
 
 
@@ -72,11 +82,19 @@ fieldset .btn:last-child, .btn-group li:last-child .btn {
   width: 1px;
 }
 
+.btn:hover {
+  background: var(--widget-hover-color);
+}
+
+.btn:active {
+  background: var(--widget-pressed-color);
+}
+
 .btn [type="radio"]:checked + span, .btn [type="checkbox"]:checked + span {
-  background-color: rgba(90, 90, 90, 0.20);
+  background-color: var(--widget-pressed-color);
   display: inline-block;
-  margin: -8px;
-  padding: 8px;
+  margin: calc(-1 * var(--widget-padding));
+  padding: var(--widget-padding);
 }
 
 .popover {
@@ -92,34 +110,35 @@ fieldset .btn:last-child, .btn-group li:last-child .btn {
   transition-property: opacity, padding, visibility;
   transition: 0.2s ease-out;
   visibility: hidden;
+  --offset: -8px;
 }
 
 .popover > input[type="checkbox"]:checked ~ .popover-panel {
   visibility: visible;
   opacity: 1;
   margin: 0px;
-  top: 18px;
+  top: calc(-2 * var(--offset));
 }
 
 .popover-panel:before {
   content: "";
-	border-bottom: 11px solid #DDD;
+	border-bottom: 11px solid var(--text-area-bg-color);
 	border-left: 8px solid transparent;
 	border-right: 8px solid transparent;
   position: relative;
-  top: -8px;
-  left: calc(50% - 8px);
+  top: var(--offset);
+  left: calc(50% + var(--offset));
 }
 
 .popover ul {
   display: table;
   list-style: none;
   margin: auto;
-  padding: 8px 0px;
-  background-color: #DDD;
+  padding: var(--widget-padding) 0px;
+  background-color: var(--text-area-bg-color);
   box-shadow: 0px 0px 16px 0px #444;
-  border-radius: 4px;
-  border: 1px rgba(0, 0, 0, 0.33) solid;
+  border-radius: var(--default-rounding);
+  border: 1px var(--widget-border-color) solid;
 }
 
 .popover li {
@@ -133,37 +152,37 @@ fieldset .btn:last-child, .btn-group li:last-child .btn {
   white-space: nowrap;
   text-decoration: none;
   color: black;
-  padding: 4px 16px;
+  padding: var(--widget-padding) calc(var(--widget-padding) + 32px) var(--widget-padding) var(--widget-padding);
 }
 
 .popover li > .menu-entry:hover {
-  background-color: #2299ff;
+  background-color: var(--accent-color);
   color: white;
 }
 
 table.gauge {
   display: inline-table;
-  border: 2px solid black;
+  border: 1px solid var(--widget-border-color);
   border-style: solid;
   border-collapse: collapse;
-  margin: 4px;
+  margin: var(--default-margin);
 }
 
 table.gauge td, table.gauge th {
-  padding: 2px;
+  padding: calc(0.5 * var(--widget-padding));
 }
 
 table.gauge.numerical td {
-  border: 1px solid black;
+  border: 1px solid var(--widget-border-color);
 }
 
 table.gauge.numerical td {
-  background-color: white;
+  background-color: var(--text-area-bg-color);
   min-width: 3em;
   text-align: right;
 }
 
 table.gauge th {
-  background-color: #2196F3;
-  color: white;
+  background-color: var(--accent-color);
+  color: var(--accent-text-color);
 }
