@@ -72,11 +72,11 @@ fieldset .btn:last-child, .btn-group li:last-child .btn {
   width: 1px;
 }
 
-.btn [type="radio"]:checked + span, .btn [type="checkbox"]:focus + span {
-    background-color: rgba(90, 90, 90, 0.20);
-    display: inline-block;
-    margin: -8px;
-    padding: 8px;
+.btn [type="radio"]:checked + span, .btn [type="checkbox"]:checked + span {
+  background-color: rgba(90, 90, 90, 0.20);
+  display: inline-block;
+  margin: -8px;
+  padding: 8px;
 }
 
 .popover {
@@ -94,7 +94,7 @@ fieldset .btn:last-child, .btn-group li:last-child .btn {
   visibility: hidden;
 }
 
-.popover > input[type="checkbox"]:focus ~ .popover-panel {
+.popover > input[type="checkbox"]:checked ~ .popover-panel {
   visibility: visible;
   opacity: 1;
   margin: 0px;
@@ -130,6 +130,7 @@ fieldset .btn:last-child, .btn-group li:last-child .btn {
 
 .popover li > .menu-entry {
   display: table-cell;
+  white-space: nowrap;
   text-decoration: none;
   color: black;
   padding: 4px 16px;

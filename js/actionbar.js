@@ -79,9 +79,9 @@ return React.createClass({displayName: 'ActionBar',
 
         R.li({className: 'tool'},
           React.createElement(Popover, {label: "Load"},
-            React.createElement(MenuEntry, {label: "Stage", onClick: this.handleUpload}),
-            React.createElement(MenuEntry, {label: "Tileset"}),
-            React.createElement(MenuEntry, {label: "Components"})
+            React.createElement(MenuEntry, {icon: 'fa-globe', label: "Stage", onClick: this.handleUpload}),
+            React.createElement(MenuEntry, {icon: 'fa-file-image-o', label: "Tileset"}),
+            React.createElement(MenuEntry, {icon: 'fa-cubes', label: "Components"})
           )
         )
       )
