@@ -26,11 +26,7 @@ return React.createClass({displayName: 'MapEditor',
     adaptSceneHeight();
   },
   getInitialState () {
-    const tilesMap = Immutable.Map().withMutations(map => {
-      for (let coord of hexagon.grid.allCoords({width: this.props.initialWidth, height: this.props.initialHeight})) {
-        map.set(new Point(coord), 0);
-      }
-    });
+    const tilesMap = Immutable.Map();
     return {
       cursorPixCoords: new Point({x: 0, y: 0}),
       cursorHexCoords: new Point({x: 0, y: 0}),

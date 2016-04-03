@@ -28,8 +28,10 @@ class Renderer {
         this.tilesByColor.get(Tile.types[tile].color).push(obstacleCoord);
       }
     }
+    bgCtx.clearRect(0, 0, bgCtx.canvas.width, bgCtx.canvas.height);
     for (let [color, position] of this.tilesByColor) {
       bgCtx.beginPath();
+      bgCtx.lineWidth = 2;
       bgCtx.fillStyle = color;
       for (let pos of position) {
         hexagon.path(bgCtx, pos, grid.radius);
@@ -45,13 +47,14 @@ class Renderer {
     this.selectedTileType = selectedTileType;
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.beginPath();
-    ctx.strokeStyle = "rgb(0, 255, 0)";
-    hexagon.path(ctx, hexagon.grid.axisToPixel(grid, selectedTilePosition.x, selectedTilePosition.y), grid.radius);
-    ctx.stroke();
-    ctx.beginPath();
     ctx.fillStyle = Tile.types[selectedTileType].color;
     hexagon.path(ctx, hexagon.grid.axisToPixel(grid, selectedTilePosition.x, selectedTilePosition.y), grid.radius);
     ctx.fill();
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "rgb(0, 255, 0)";
+    hexagon.path(ctx, hexagon.grid.axisToPixel(grid, selectedTilePosition.x, selectedTilePosition.y), grid.radius);
+    ctx.stroke();
   }
 }
 
