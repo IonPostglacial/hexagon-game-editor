@@ -5,9 +5,6 @@ body {
 
 .scene {
   background-color: #DDD;
-  background-image: linear-gradient(45deg, rgb(180, 180, 180) 25%, transparent 25%, transparent 75%, rgba(180,180,180,1) 75%, rgba(180,180,180,1)), linear-gradient(45deg, rgba(180,180,180,1) 25%, transparent 25%, transparent 75%, rgba(180,180,180,1) 75%, rgba(180,180,180,1));
-  background-size: 30px 30px;
-  background-position: 0 0, 15px 15px;
   box-shadow: inset 0px 0px 8px 0px #444;
   overflow-y: scroll;
 }

@@ -82,7 +82,7 @@ return React.createClass({displayName: 'MapEditor',
       R.div({className: 'main-view'},
         React.createElement(ActionBar, {onSceneChange: this.handleSceneChange,
           grid: {width: this.state.width, height: this.state.height, radius: this.state.radius, tiles: this.state.tiles}}),
-        R.div({className: 'scene'},
+        R.div({className: 'scene checkboard'},
           React.createElement(MultiLayerCanvas, {onMouseMove: this.handleMouseMove, onClick: this.handleClick,
             width: this.state.width, height: this.state.height, radius: this.state.radius, tiles: this.state.tiles,
             selectedTile: this.state.cursorHexCoords, selectedTileType: this.state.selectedTileType})
