@@ -1,30 +1,10 @@
-:root {
-  /* colors */
-  --main-color: #ccc;
-  --main-text-color: #000;
-  --main-font: Arial, Helvetica, sans-serif;
-  --accent-color: #2196F3;
-  --accent-text-color: #fff;
-  --main-color-lighter: #ddd;
-  --text-area-bg-color: rgba(230, 230, 230, 0.9);
-  --widget-color: rgba(220, 220, 220, 0.7);
-  --widget-border-color: rgba(0, 0, 0, 0.33);
-  --widget-hover-color: rgba(230, 230, 230, 0.7);
-  --widget-pressed-color: rgba(190, 190, 190, 0.7);
-  --widget-pressed-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.2) inset;
-  /* placement */
-  --default-rounding: 3px;
-  --default-margin: 4px;
-  --widget-padding: 8px;
-}
-
 body {
   font-family: var(--main-font);
 }
 
 .checkboard {
-  background-image: linear-gradient(45deg, var(--main-color) 25%, transparent 25%, transparent 75%, var(--main-color) 75%, var(--main-color)),
-                    linear-gradient(45deg, var(--main-color) 25%, transparent 25%, transparent 75%, var(--main-color) 75%, var(--main-color));
+  background-image: linear-gradient(45deg, var(--checkboard-color) 25%, transparent 25%, transparent 75%, var(--checkboard-color) 75%, var(--checkboard-color)),
+                    linear-gradient(45deg, var(--checkboard-color) 25%, transparent 25%, transparent 75%, var(--checkboard-color) 75%, var(--checkboard-color));
   background-size: 30px 30px;
   background-position: 0 0, 15px 15px;
 }
@@ -32,7 +12,7 @@ body {
 .tool-box {
   display: flex;
   border: solid 1px var(--widget-border-color);
-  background: linear-gradient(to bottom, var(--main-color-lighter) 0%, var(--main-color) 20%);
+  background: linear-gradient(to bottom, var(--main-color-lighter) 0%, var(--main-color) var(--widget-gradient-stop));
   margin: 0px;
 }
 
@@ -55,7 +35,7 @@ ul.tool-box {
 
 .btn {
   display: inline-block;
-  color: black;
+  color: var(--main-text-color);
   transition-property: background, box-shadow;
   transition: 0.2s ease-out;
   padding: var(--widget-padding);
@@ -190,6 +170,7 @@ fieldset .btn:last-child, .btn-group li:last-child .btn {
 
 table.gauge {
   display: inline-table;
+  color: var(--main-text-color);
   border: 1px solid var(--widget-border-color);
   border-style: solid;
   border-collapse: collapse;
@@ -206,6 +187,7 @@ table.gauge.numerical td {
 
 table.gauge.numerical td {
   background-color: var(--text-area-bg-color);
+  color: var(--text-area-text-color);
   min-width: 3em;
   text-align: right;
 }

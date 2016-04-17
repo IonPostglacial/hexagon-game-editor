@@ -1,0 +1,22 @@
+:root {
+  /* colors */
+  --main-color: #59564e;
+  --main-text-color: #dfdbd2;
+  --main-font: Ubuntu, Arial, Helvetica, sans-serif;
+  --checkboard-color: #fff;
+  --accent-color: #f07746;
+  --accent-text-color: #fff;
+  --main-color-lighter: #3b3a36;
+  --text-area-bg-color: rgba(230, 230, 230, 0.9);
+  --text-area-text-color: black;
+  --widget-color: #504e47;
+  --widget-border-color: rgba(0, 0, 0, 0.33);
+  --widget-hover-color: #59564e;
+  --widget-pressed-color: #42413c;
+  --widget-pressed-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.2) inset;
+  --widget-gradient-stop: 100%;
+  /* placement */
+  --default-rounding: 3px;
+  --default-margin: 4px;
+  --widget-padding: 8px;
+}

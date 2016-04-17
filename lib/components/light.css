@@ -1,0 +1,22 @@
+:root {
+  /* colors */
+  --main-color: #ccc;
+  --main-text-color: #000;
+  --checkboard-color: #fff;
+  --main-font: Arial, Helvetica, sans-serif;
+  --accent-color: #2196F3;
+  --accent-text-color: #fff;
+  --main-color-lighter: #ddd;
+  --text-area-bg-color: rgba(230, 230, 230, 0.9);
+  --text-area-text-color: black;
+  --widget-color: rgba(220, 220, 220, 0.7);
+  --widget-border-color: rgba(0, 0, 0, 0.33);
+  --widget-hover-color: rgba(230, 230, 230, 0.7);
+  --widget-pressed-color: rgba(190, 190, 190, 0.7);
+  --widget-pressed-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.2) inset;
+  --widget-gradient-stop: 20%;
+  /* placement */
+  --default-rounding: 3px;
+  --default-margin: 4px;
+  --widget-padding: 8px;
+}
