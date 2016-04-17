@@ -10,7 +10,8 @@
   --widget-color: rgba(220, 220, 220, 0.7);
   --widget-border-color: rgba(0, 0, 0, 0.33);
   --widget-hover-color: rgba(230, 230, 230, 0.7);
-  --widget-pressed-color: rgba(160, 160, 160, 0.7);
+  --widget-pressed-color: rgba(190, 190, 190, 0.7);
+  --widget-pressed-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.2) inset;
   /* placement */
   --default-rounding: 3px;
   --default-margin: 4px;
@@ -55,7 +56,7 @@ ul.tool-box {
 .btn {
   display: inline-block;
   color: black;
-  transition-property: background;
+  transition-property: background, box-shadow;
   transition: 0.2s ease-out;
   padding: var(--widget-padding);
   border-radius: var(--default-rounding);
@@ -111,10 +112,12 @@ fieldset .btn:last-child, .btn-group li:last-child .btn {
 
 .btn:active {
   background: var(--widget-pressed-color);
+  box-shadow: var(--widget-pressed-shadow);
 }
 
 .btn [type="radio"]:checked + span, .btn [type="checkbox"]:checked + span {
   background-color: var(--widget-pressed-color);
+  box-shadow: var(--widget-pressed-shadow);
   display: inline-block;
   margin: calc(-1 * var(--widget-padding));
   padding: var(--widget-padding);

@@ -16,7 +16,7 @@ class Renderer {
     this.path = [];
   }
 
-  drawBackground (bgCtx, grid) {
+  drawBackground (ctx, grid) {
     if (!grid.tiles || this.lastData === grid.tiles) { return; }
     this.lastData = grid.tiles;
     for (let color of this.allColors) {
@@ -28,20 +28,20 @@ class Renderer {
         this.tilesByColor.get(Tile.types[tile].color).push(obstacleCoord);
       }
     }
-    bgCtx.clearRect(0, 0, bgCtx.canvas.width, bgCtx.canvas.height);
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     for (let [color, position] of this.tilesByColor) {
-      bgCtx.beginPath();
-      bgCtx.lineWidth = 2;
-      bgCtx.fillStyle = color;
+      ctx.beginPath();
+      ctx.lineWidth = 2;
+      ctx.fillStyle = color;
       for (let pos of position) {
-        hexagon.path(bgCtx, pos, grid.radius);
+        hexagon.path(ctx, pos, grid.radius);
       }
-      bgCtx.fill();
+      ctx.fill();
     }
-    hexagon.grid.draw(bgCtx, grid, "rgb(150, 150, 150)");
+    hexagon.grid.draw(ctx, grid, "rgb(150, 150, 150)");
   }
 
-  drawScene (ctx, grid, selectedTilePosition, selectedTileType) {
+  drawForeground (ctx, grid, selectedTilePosition, selectedTileType) {
     if (this.selectedPosition === selectedTilePosition && this.selectedTileType === selectedTileType) { return; }
     this.selectedPosition = selectedTilePosition;
     this.selectedTileType = selectedTileType;
