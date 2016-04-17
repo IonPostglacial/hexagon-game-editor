@@ -2,6 +2,102 @@ body {
   font-family: var(--main-font);
 }
 
+/** template for tabs
+<div class="tabbed-view">
+  <ul class="tabs">
+    <li onclick="this.getElementsByTagName('input')[0].click();">
+      <input name="dummy-tabx" type="radio" />
+      <label for="tab1"><i class="fa fa-fw fa-plane"></i>Tab 1</label>
+    </li>
+    <li onclick="this.getElementsByTagName('input')[0].click();">
+      <input name="dummy-tabx" type="radio" />
+      <label for="tab2"><i class="fa fa-fw fa-subway"></i>Tab 2</label>
+    </li>
+  </ul>
+  <ul class="tabs-contents">
+    <li>
+      <input id="tab1" name="tabs" type="radio" />
+      <p class="tab-content">Toto titi</p>
+    </li>
+    <li>
+      <input id="tab2" name="tabs" type="radio" />
+      <p class="tab-content">Tata tutu</p>
+    </li>
+  </ul>
+</div>
+**/
+
+.tabbed-view {
+  position: relative;
+}
+
+ul.tabs {
+  background-color: var(--widget-color);
+}
+
+ul.tabs, ul.tabs-contents {
+  position: relative;
+  list-style-type: none;
+  margin: 0px;
+}
+
+ul.tabs, ul.tabs-contents {
+  display: block;
+  margin: 0px;
+  padding: 0px;
+}
+
+ul.tabs > li {
+  display: inline-block;
+  margin: 0px;
+  padding: 0px;
+}
+
+ul.tabs li > input[type="radio"], ul.tabs-contents > li > input[type="radio"] {
+  position: absolute;
+  visibility: hidden;
+}
+
+ul.tabs label {
+  transition-property: background, border;
+  transition: 0.2s ease-out;
+  display: inline-block;
+  opacity: 0.5;
+  position: relative;
+  padding: var(--widget-padding);
+}
+
+ul.tabs input[type="radio"]:checked ~ label, ul.tabs label:hover {
+  border: 1px solid var(--accent-color);
+  opacity: 1;
+  border-width: 0 0 2px 0;
+}
+
+ul.tabs label:hover {
+  background-color: var(--widget-hover-color);
+}
+
+ul.tabs input[type="radio"]:checked ~ label {
+  background-color: var(--widget-pressed-color);
+}
+
+ul.tabs-contents > li {
+  float: left;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+ul.tabs-contents > li .tab-content {
+  display: none;
+}
+
+ul.tabs-contents > li > input[type="radio"]:checked ~ .tab-content {
+  display: block;
+}
+
 .checkboard {
   background-image: linear-gradient(45deg, var(--checkboard-color) 25%, transparent 25%, transparent 75%, var(--checkboard-color) 75%, var(--checkboard-color)),
                     linear-gradient(45deg, var(--checkboard-color) 25%, transparent 25%, transparent 75%, var(--checkboard-color) 75%, var(--checkboard-color));
