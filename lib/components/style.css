@@ -121,13 +121,11 @@ ul.tabs-contents > li > input[type="radio"]:checked ~ .tab-content {
   justify-content: center;
 }
 
-ul.tool-box {
-  list-style-type: none;
-}
-
-.tool {
-  align-self: center;
-}
+/* template for a button
+<a id="restart" class="btn">
+  <i class="fa fa-pull-left fa-fw fa-undo"></i>Undo
+</a>
+*/
 
 .btn {
   display: inline-block;
@@ -161,16 +159,15 @@ fieldset .btn, .btn-group .btn {
   border: 1px var(--widget-border-color) solid;
 }
 
-fieldset .btn:first-child, .btn-group li:first-child .btn {
+fieldset .btn:first-child, .btn-group .btn:first-child {
   margin: var(--default-margin) 0px 0px var(--default-margin);
   border-radius: var(--default-rounding) 0px 0px var(--default-rounding);
 }
 
-fieldset .btn:last-child, .btn-group li:last-child .btn {
+fieldset .btn:last-child, .btn-group .btn:last-child {
   margin: 0px var(--default-rounding) var(--default-rounding) 0px;
   border-radius: 0px var(--default-rounding) var(--default-rounding) 0px;
 }
-
 
 .btn [type="radio"], .btn [type="checkbox"] {
   border: 0;
@@ -198,6 +195,19 @@ fieldset .btn:last-child, .btn-group li:last-child .btn {
   margin: calc(-1 * var(--widget-padding));
   padding: var(--widget-padding);
 }
+
+/* template for a popover
+<label class="popover btn">
+  <input type="checkbox" /><span><i class="fa fa-pull-right fa-caret-down"></i>Taille</span>
+  <div class="popover-panel" >
+    <p>
+      This is a popover<br/>
+      Hey ho !<br/>
+      I pop !
+    <p>
+  </div>
+</label>
+*/
 
 .popover {
   display: inline-block;

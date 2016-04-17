@@ -84,9 +84,9 @@ return React.createClass({displayName: 'MapEditor',
             selectedTile: this.state.cursorHexCoords, selectedTileType: this.state.selectedTileType})
         ),
         React.createElement(HSelectBox, {onChange: e => this.setState({selectedTileType: e.value}), data: Tile.types}),
-        R.ul({className: 'centered tool-box'},
-          R.li({className: 'tool'}, React.createElement(CoordBox, {caption: "Pix Coordinates", data: this.state.cursorPixCoords.toObject()})),
-          R.li({className: 'tool'}, React.createElement(CoordBox, {caption: "Hex Coordinates", data: this.state.cursorHexCoords.toObject()}))
+        R.div({className: 'centered tool-box'},
+          React.createElement(CoordBox, {caption: "Pix Coordinates", data: this.state.cursorPixCoords.toObject()}),
+          React.createElement(CoordBox, {caption: "Hex Coordinates", data: this.state.cursorHexCoords.toObject()})
         )
       )
     );

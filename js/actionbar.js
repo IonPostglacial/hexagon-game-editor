@@ -65,24 +65,15 @@ return React.createClass({displayName: 'ActionBar',
   },
   render () {
     return (
-      R.ul({className: 'centered tool-box'},
-        R.li({className: 'tool'},
-          React.createElement(PushButton, {icon: 'fa-download', text: "Download current stage",
-            href: this.state.downloadLink, download: "scene.json", onClick: this.handleDownload})
-        ),
-        R.li({className: 'tool'},
-          React.createElement(PushButton, {icon: 'fa-clone', text: "Snapshot", onClick: this.handleSave})
-        ),
-        R.li({className: 'tool'},
-          React.createElement(PushButton, {icon: 'fa-undo', text: "Restore", onClick: this.handleLoad})
-        ),
-
-        R.li({className: 'tool'},
-          React.createElement(Popover, {label: "Load"},
-            React.createElement(MenuEntry, {icon: 'fa-globe', label: "Stage", onClick: this.handleUpload}),
-            React.createElement(MenuEntry, {icon: 'fa-file-image-o', label: "Tileset"}),
-            React.createElement(MenuEntry, {icon: 'fa-cubes', label: "Components"})
-          )
+      R.div({className: 'centered tool-box'},
+        React.createElement(PushButton, {icon: 'fa-download', text: "Download current stage",
+          href: this.state.downloadLink, download: "scene.json", onClick: this.handleDownload}),
+        React.createElement(PushButton, {icon: 'fa-clone', text: "Snapshot", onClick: this.handleSave}),
+        React.createElement(PushButton, {icon: 'fa-undo', text: "Restore", onClick: this.handleLoad}),
+        React.createElement(Popover, {label: "Load"},
+          React.createElement(MenuEntry, {icon: 'fa-globe', label: "Stage", onClick: this.handleUpload}),
+          React.createElement(MenuEntry, {icon: 'fa-file-image-o', label: "Tileset"}),
+          React.createElement(MenuEntry, {icon: 'fa-cubes', label: "Components"})
         )
       )
     );
