@@ -276,19 +276,34 @@ fieldset .btn:last-child, .btn-group .btn:last-child {
 
 table.gauge {
   display: inline-table;
+  border-spacing: 0;
   color: var(--main-text-color);
   border: 1px solid var(--widget-border-color);
-  border-style: solid;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-radius: 0 var(--default-rounding) var(--default-rounding) 0;
   margin: var(--default-margin);
 }
 
-table.gauge td, table.gauge th {
+table.gauge caption {
+  background-color: var(--widget-color);
+  border: 1px solid var(--widget-border-color);
+  border-width: 1px 0 1px 1px;
+  border-radius: var(--default-rounding) 0 0 var(--default-rounding);
+  caption-side: left;
+  text-align: left;
+  padding: calc(0.5 * var(--widget-padding));
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+table.gauge td:last-child, table.gauge th {
+  border: none;
+  margin: 0px;
   padding: calc(0.5 * var(--widget-padding));
 }
 
-table.gauge.numerical td {
-  border: 1px solid var(--widget-border-color);
+table.gauge td:last-child {
+  border-radius: 0 var(--default-rounding) var(--default-rounding) 0;
 }
 
 table.gauge.numerical td {
