@@ -34,7 +34,7 @@ function gridFromJson (json) {
 
 return React.createClass({displayName: 'ActionBar',
   getInitialState () {
-    return { downloadLink: null };
+    return { downloadLink: undefined };
   },
   componentDidMount () {
     this.uploaded = Object.assign(document.createElement('input'), { type: 'file', style: 'display:none' });

@@ -12,7 +12,7 @@ class Renderer {
     this.tilesByColor = new Map();
     this.selectedPosition = selectedPosition;
     this.selectedTileType = selectedTileType;
-    this.lastData = null;
+    this.lastData = undefined;
     this.path = [];
   }
 
@@ -23,10 +23,8 @@ class Renderer {
       this.tilesByColor.set(color, []);
     }
     for (let [pos, tile] of grid.tiles) {
-      if (tile !== null) {
-        const obstacleCoord = hexagon.grid.axisToPixel(grid, pos.x, pos.y);
-        this.tilesByColor.get(Tile.types[tile].color).push(obstacleCoord);
-      }
+      const obstacleCoord = hexagon.grid.axisToPixel(grid, pos.x, pos.y);
+      this.tilesByColor.get(Tile.types[tile].color).push(obstacleCoord);
     }
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     for (let [color, position] of this.tilesByColor) {
