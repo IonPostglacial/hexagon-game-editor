@@ -1,11 +1,12 @@
-define(require => { "use strict";
+"use strict";
 
-const hexagon  = require('lib/hexagon');
-const Renderer = require('js/renderer');
+const React    = require('react');
+const hexagon  = require('../lib/hexagon');
+const Renderer = require('./renderer');
 
 const R = React.DOM;
 
-return React.createClass({displayName: 'MultiLayerCanvas',
+module.exports = React.createClass({displayName: 'MultiLayerCanvas',
   componentDidMount () {
     this.bgCtx = this._layers.children[0].getContext('2d');
     this.fgCtx = this._layers.children[2].getContext("2d");
@@ -29,6 +30,4 @@ return React.createClass({displayName: 'MultiLayerCanvas',
       )
     );
   }
-});
-
 });

@@ -1,5 +1,13 @@
 body {
   font-family: var(--main-font);
+  font-size: 15px;
+  background-color: var(--main-color);
+  color: var(--main-text-color);
+}
+
+h1, h2, h3, h4, h5 {
+  color: #b58900;
+  text-align: center;
 }
 
 /** template for tabs
@@ -62,7 +70,6 @@ ul.tabs label {
   transition-property: background, border;
   transition: 0.2s ease-out;
   display: inline-block;
-  opacity: 0.5;
   position: relative;
   padding: var(--widget-padding);
 }
@@ -79,6 +86,7 @@ ul.tabs label:hover {
 
 ul.tabs input[type="radio"]:checked ~ label {
   background-color: var(--widget-pressed-color);
+  color: var(--widget-pressed-text-color);
 }
 
 ul.tabs-contents > li {
@@ -108,6 +116,7 @@ ul.tabs-contents > li > input[type="radio"]:checked ~ .tab-content {
 .tool-box {
   display: flex;
   border: solid 1px var(--widget-border-color);
+  border-radius: var(--default-rounding)
   background: linear-gradient(to bottom, var(--main-color-lighter) 0%, var(--main-color) var(--widget-gradient-stop));
   margin: 0px;
 }
@@ -160,7 +169,7 @@ fieldset .btn, .btn-group .btn {
 }
 
 fieldset .btn:first-child, .btn-group .btn:first-child {
-  margin: var(--default-margin) 0px 0px var(--default-margin);
+  margin: var(--default-margin) 0px var(--default-margin) 0px;
   border-radius: var(--default-rounding) 0px 0px var(--default-rounding);
 }
 
@@ -185,11 +194,13 @@ fieldset .btn:last-child, .btn-group .btn:last-child {
 
 .btn:active {
   background: var(--widget-pressed-color);
+  color: var(--widget-pressed-text-color);
   box-shadow: var(--widget-pressed-shadow);
 }
 
 .btn [type="radio"]:checked + span, .btn [type="checkbox"]:checked + span {
   background-color: var(--widget-pressed-color);
+  color: var(--widget-pressed-text-color);
   box-shadow: var(--widget-pressed-shadow);
   display: inline-block;
   margin: calc(-1 * var(--widget-padding));
@@ -250,7 +261,7 @@ fieldset .btn:last-child, .btn-group .btn:last-child {
   margin: auto;
   padding: var(--widget-padding) 0px;
   background-color: var(--text-area-bg-color);
-  box-shadow: 0px 0px 16px -4px #444;
+  box-shadow: var(--default-shadow);
   border-radius: var(--default-rounding);
   border: 1px var(--widget-border-color) solid;
 }
@@ -262,16 +273,16 @@ fieldset .btn:last-child, .btn-group .btn:last-child {
 }
 
 .popover li > .menu-entry {
+  color: var(--main-text-color);
   display: table-cell;
   white-space: nowrap;
   text-decoration: none;
-  color: black;
   padding: var(--widget-padding) calc(var(--widget-padding) + 32px) var(--widget-padding) var(--widget-padding);
 }
 
 .popover li > .menu-entry:hover {
   background-color: var(--accent-color);
-  color: white;
+  color: var(--accent-text-color);
 }
 
 table.gauge {
@@ -294,6 +305,10 @@ table.gauge caption {
   padding: calc(0.5 * var(--widget-padding));
   vertical-align: middle;
   white-space: nowrap;
+}
+
+table.gauge tr {
+  display: inline-block;
 }
 
 table.gauge td:last-child, table.gauge th {

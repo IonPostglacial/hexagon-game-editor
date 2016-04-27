@@ -1,9 +1,9 @@
-define(require => { "use strict";
+"use strict";
 
-const hexagon   = require('lib/hexagon');
-const PF        = require('lib/pathfinding');
-const Tile      = require('js/tile');
-const Immutable = require('lib/immutable');
+const hexagon   = require('../lib/hexagon');
+const PF        = require('../lib/pathfinding');
+const Tile      = require('./tile');
+const Immutable = require('../lib/immutable');
 const Point = Immutable.Record({x: 0, y: 0});
 
 class Renderer {
@@ -56,6 +56,4 @@ class Renderer {
   }
 }
 
-return Renderer;
-
-});
+module.exports = Renderer;

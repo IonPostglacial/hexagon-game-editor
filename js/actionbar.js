@@ -1,10 +1,8 @@
-define(require => { "use strict";
-
-const PushButton = require('lib/components/pushbutton');
-const Popover    = require('lib/components/popover');
-const MenuEntry  = require('lib/components/menuentry');
-const Immutable  = require('lib/immutable');
-const hexagon    = require('lib/hexagon');
+const React      = require('react');
+const ReactDOM   = require('react-dom');
+const { PushButton, Popover, MenuEntry } = require('../lib/htk/hextk');
+const Immutable  = require('../lib/immutable');
+const hexagon    = require('../lib/hexagon');
 
 const R = React.DOM;
 const Point = Immutable.Record({x: 0, y: 0});
@@ -32,7 +30,7 @@ function gridFromJson (json) {
   return grid;
 }
 
-return React.createClass({displayName: 'ActionBar',
+module.exports = React.createClass({displayName: 'ActionBar',
   getInitialState () {
     return { downloadLink: undefined };
   },
@@ -66,10 +64,10 @@ return React.createClass({displayName: 'ActionBar',
   render () {
     return (
       R.div({className: 'centered tool-box'},
-        React.createElement(PushButton, {icon: 'fa-download', text: "Download current stage",
+        React.createElement(PushButton, {icon: 'fa-download', label: "Download current stage",
           href: this.state.downloadLink, download: "scene.json", onClick: this.handleDownload}),
-        React.createElement(PushButton, {icon: 'fa-clone', text: "Snapshot", onClick: this.handleSave}),
-        React.createElement(PushButton, {icon: 'fa-undo', text: "Restore", onClick: this.handleLoad}),
+        React.createElement(PushButton, {icon: 'fa-clone', label: "Snapshot", onClick: this.handleSave}),
+        React.createElement(PushButton, {icon: 'fa-undo', label: "Restore", onClick: this.handleLoad}),
         React.createElement(Popover, {label: "Load"},
           React.createElement(MenuEntry, {icon: 'fa-globe', label: "Stage", onClick: this.handleUpload}),
           React.createElement(MenuEntry, {icon: 'fa-file-image-o', label: "Tileset"}),
@@ -78,5 +76,4 @@ return React.createClass({displayName: 'ActionBar',
       )
     );
   }
-});
 });

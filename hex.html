@@ -4,23 +4,12 @@
     <meta charset="utf-8" />
     <title>Playing with hexagons</title>
     <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="lib/components/light.css" rel="stylesheet" title="Light theme">
-    <link href="lib/components/dark.css" rel="alternate stylesheet" title="Dark theme">
-    <link href="lib/components/style.css" rel="stylesheet">
+    <link href="lib/htk/css/light.css" rel="stylesheet" title="Light theme">
+    <link href="lib/htk/css/dark.css" rel="alternate stylesheet" title="Dark theme">
+    <link href="lib/htk/css/style.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-    <script src="lib/react.js"></script>
-    <script src="lib/react-dom.js"></script>
-    <script src="lib/require.js"></script>
-    <script>
-      requirejs(["js/mapeditor"], (Editor) => {
-        "use strict";
-
-        ReactDOM.render(
-          React.createElement(Editor, {initialWidth: 24, initialHeight:12, initialRadius: 32}),
-          document.getElementById('editor')
-        );
-      });
-    </script>
+    <script src="lib/runtime.js"></script>
+    <script src="dist/main.js"></script>
   </head>
   <body>
     <!-- Editor -->

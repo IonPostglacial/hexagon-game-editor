@@ -1,20 +1,20 @@
-define(require => { "use strict";
+"use strict";
 
-const hexagon          = require('lib/hexagon');
-const Immutable        = require('lib/immutable');
-const HSelectBox       = require('lib/components/hselectbox');
-const CoordBox         = require('lib/components/coordbox');
-const PushButton       = require('lib/components/pushbutton');
-const MultiLayerCanvas = require('js/multilayercanvas');
-const ActionBar        = require('js/actionbar');
-const Tile             = require('js/tile');
+const { MultiValueButton, ButtonValue, CoordBox, Coord, PushButton } = require('../lib/htk/hextk');
+const React            = require('react');
+const ReactDOM         = require('react-dom');
+const hexagon          = require('../lib/hexagon');
+const Immutable        = require('../lib/immutable');
+const MultiLayerCanvas = require('./multilayercanvas');
+const ActionBar        = require('./actionbar');
+const Tile             = require('./tile');
 
 const R = React.DOM;
 const Point = Immutable.Record({x: 0, y: 0});
 const $ = document.querySelector.bind(document);
 const $all = document.querySelectorAll.bind(document);
 
-return React.createClass({displayName: 'MapEditor',
+module.exports = React.createClass({displayName: 'MapEditor',
   tilesHistory: [],
   componentDidMount () {
     document.addEventListener('keydown', this.handleKeyPress);
@@ -83,13 +83,20 @@ return React.createClass({displayName: 'MapEditor',
             width: this.state.width, height: this.state.height, radius: this.state.radius, tiles: this.state.tiles,
             selectedTile: this.state.cursorHexCoords, selectedTileType: this.state.selectedTileType})
         ),
-        React.createElement(HSelectBox, {onChange: e => this.setState({selectedTileType: e.value}), data: Tile.types}),
+        React.createElement(MultiValueButton, {onChange: e => this.setState({selectedTileType: e.value}), data: Tile.types},
+          Tile.types.map(type => React.createElement(ButtonValue, type))
+        ),
         R.div({className: 'centered tool-box'},
-          React.createElement(CoordBox, {caption: "Pix Coordinates", data: this.state.cursorPixCoords.toObject()}),
-          React.createElement(CoordBox, {caption: "Hex Coordinates", data: this.state.cursorHexCoords.toObject()})
+          React.createElement(CoordBox, {caption: "Pix Coordinates", data: this.state.cursorPixCoords.toObject()},
+            React.createElement(Coord, { label: 'x', value: this.state.cursorPixCoords.x }),
+            React.createElement(Coord, { label: 'y', value: this.state.cursorPixCoords.y })
+          ),
+          React.createElement(CoordBox, {caption: "Hex Coordinates"},
+            React.createElement(Coord, { label: 'x', value: this.state.cursorHexCoords.x }),
+            React.createElement(Coord, { label: 'y', value: this.state.cursorHexCoords.y })
+          )
         )
       )
     );
   }
-});
 });
