@@ -1,6 +1,6 @@
 const React      = require('react');
 const ReactDOM   = require('react-dom');
-const { PushButton, Popover, MenuEntry } = require('../lib/htk/hextk');
+const { PushButton, Popover, MenuEntry } = require('hextk');
 const Immutable  = require('../lib/immutable');
 const hexagon    = require('../lib/hexagon');
 

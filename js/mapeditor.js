@@ -1,6 +1,6 @@
 "use strict";
 
-const { MultiValueButton, ButtonValue, CoordBox, Coord, PushButton } = require('../lib/htk/hextk');
+const { MultiValueButton, ButtonValue, CoordBox, Coord, PushButton } = require('hextk');
 const React            = require('react');
 const ReactDOM         = require('react-dom');
 const hexagon          = require('../lib/hexagon');
