@@ -78,13 +78,13 @@ module.exports = React.createClass({displayName: 'MapEditor',
       R.div({className: 'main-view'},
         React.createElement(ActionBar, {onSceneChange: this.handleSceneChange,
           grid: {width: this.state.width, height: this.state.height, radius: this.state.radius, tiles: this.state.tiles}}),
-        R.div({className: 'scene checkboard'},
+        R.div({className: 'scene'},
           React.createElement(MultiLayerCanvas, {onMouseMove: this.handleMouseMove, onClick: this.handleClick,
             width: this.state.width, height: this.state.height, radius: this.state.radius, tiles: this.state.tiles,
             selectedTile: this.state.cursorHexCoords, selectedTileType: this.state.selectedTileType})
         ),
         React.createElement(MultiValueButton, {onChange: e => this.setState({selectedTileType: e.value}), data: Tile.types},
-          Tile.types.map(type => React.createElement(ButtonValue, type))
+          Tile.types.map(type => React.createElement(ButtonValue, Object.assign(type, {key: type.label})))
         ),
         R.div({className: 'centered tool-box'},
           React.createElement(CoordBox, {caption: "Pix Coordinates", data: this.state.cursorPixCoords.toObject()},

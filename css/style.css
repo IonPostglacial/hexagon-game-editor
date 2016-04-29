@@ -4,7 +4,7 @@ body {
 
 .scene {
   background-color: #DDD;
-  box-shadow: inset 0px 0px 8px 0px #444;
+  box-shadow: inset 0px 0px 4px 0px #444;
   overflow-y: scroll;
 }
 
@@ -12,7 +12,7 @@ body {
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  box-shadow: inset 0px 0px 8px 0px #444;
+  box-shadow: 0px 0px 4px 0px #444;
 }
 
 .layer {
