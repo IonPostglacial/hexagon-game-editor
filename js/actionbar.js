@@ -1,7 +1,7 @@
 const React      = require('react');
 const ReactDOM   = require('react-dom');
 const { PushButton, Popover, MenuEntry } = require('hextk');
-const Immutable  = require('../lib/immutable');
+const Immutable  = require('immutable');
 const hexagon    = require('../lib/hexagon');
 
 const R = React.DOM;
@@ -22,7 +22,9 @@ function gridFromJson (json) {
   const tiles = Immutable.Map().withMutations(map => {
     let i = 0;
     for (let coord of hexagon.grid.allCoords({width: grid.width, height: grid.height})) {
-      map.set(new Point(coord), grid.tiles[i]);
+      if (grid.tiles[i] !== null) {
+        map.set(new Point(coord), grid.tiles[i]);
+      }
       i++;
     }
   });

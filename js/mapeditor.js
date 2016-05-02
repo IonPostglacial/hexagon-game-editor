@@ -4,7 +4,7 @@ const { MultiValueButton, ButtonValue, CoordBox, Coord, PushButton } = require('
 const React            = require('react');
 const ReactDOM         = require('react-dom');
 const hexagon          = require('../lib/hexagon');
-const Immutable        = require('../lib/immutable');
+const Immutable        = require('immutable');
 const MultiLayerCanvas = require('./multilayercanvas');
 const ActionBar        = require('./actionbar');
 const Tile             = require('./tile');
@@ -26,7 +26,6 @@ module.exports = React.createClass({displayName: 'MapEditor',
     adaptSceneHeight();
   },
   getInitialState () {
-    const tilesMap = Immutable.Map();
     return {
       cursorPixCoords: new Point({x: 0, y: 0}),
       cursorHexCoords: new Point({x: 0, y: 0}),
@@ -34,7 +33,7 @@ module.exports = React.createClass({displayName: 'MapEditor',
       width: this.props.initialWidth,
       height: this.props.initialHeight,
       radius: this.props.initialRadius,
-      tiles: tilesMap
+      tiles: Immutable.Map()
     };
   },
   handleMouseMove (e) {

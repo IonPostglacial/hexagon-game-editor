@@ -2,18 +2,18 @@
 
 const React    = require('react');
 const hexagon  = require('../lib/hexagon');
-const Renderer = require('./renderer');
+const createRenderer = require('./renderer');
 
 const R = React.DOM;
 
 module.exports = React.createClass({displayName: 'MultiLayerCanvas',
   componentDidMount () {
-    this.bgCtx = this._layers.children[0].getContext('2d');
-    this.fgCtx = this._layers.children[2].getContext("2d");
-    this.renderer = new Renderer(this.props.selectedTile, this.props.selectedTileType);
-    this.drawScene = function () {
-      this.renderer.drawBackground(this.bgCtx, this.props);
-      this.renderer.drawForeground(this.fgCtx, this.props, this.props.selectedTile, this.props.selectedTileType);
+    const bgCtx = this._layers.children[0].getContext('2d');
+    const fgCtx = this._layers.children[2].getContext("2d");
+    const renderer = createRenderer(this.props.selectedTile, this.props.selectedTileType);
+    this.drawScene = () => {
+      renderer.drawBackground(bgCtx, this.props);
+      renderer.drawForeground(fgCtx, this.props, this.props.selectedTile, this.props.selectedTileType);
     };
     this.drawScene();
   },
