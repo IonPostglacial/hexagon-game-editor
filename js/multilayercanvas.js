@@ -2,7 +2,7 @@
 
 const React    = require('react');
 const hexagon  = require('../lib/hexagon');
-const createRenderer = require('./renderer');
+const {tilesRendering, overlayRendering} = require('./renderer');
 
 const R = React.DOM;
 
@@ -10,10 +10,11 @@ module.exports = React.createClass({displayName: 'MultiLayerCanvas',
   componentDidMount () {
     const bgCtx = this._layers.children[0].getContext('2d');
     const fgCtx = this._layers.children[2].getContext("2d");
-    const renderer = createRenderer(this.props.selectedTile, this.props.selectedTileType);
+    const renderTiles = tilesRendering(this.props.selectedTile);
+    const renderOverlay = overlayRendering(this.props.selectedTile, this.props.selectedTileType);
     this.drawScene = () => {
-      renderer.drawBackground(bgCtx, this.props);
-      renderer.drawForeground(fgCtx, this.props, this.props.selectedTile, this.props.selectedTileType);
+      renderTiles(bgCtx, this.props);
+      renderOverlay(fgCtx, this.props, this.props.selectedTile, this.props.selectedTileType);
     };
     this.drawScene();
   },
