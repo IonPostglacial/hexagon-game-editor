@@ -38,8 +38,8 @@ module.exports = React.createClass({displayName: 'MapEditor',
   },
   handleMouseMove (e) {
     const event = e.nativeEvent;
-    const hexCoords = hexagon.grid.pixelToAxis(this.state, event.offsetX, event.offsetY);
-    if (hexagon.grid.contains(this.state, hexCoords.x, hexCoords.y)) {
+    const hexCoords = hexagon.grid.pixelToAxis(event.offsetX, event.offsetY, this.state.radius);
+    if (hexagon.grid.contains(this.state.width, this.state.height, hexCoords.x, hexCoords.y)) {
       this.setState({
         cursorPixCoords: new Point({x: event.offsetX, y: event.offsetY}),
         cursorHexCoords: new Point(hexCoords)
@@ -48,9 +48,9 @@ module.exports = React.createClass({displayName: 'MapEditor',
   },
   handleClick (e) {
     const event = e.nativeEvent;
-    const obstacle = hexagon.grid.pixelToAxis(this.state, event.offsetX, event.offsetY);
+    const obstacle = hexagon.grid.pixelToAxis(event.offsetX, event.offsetY, this.state.radius);
     const newTiles = this.state.tiles.set(new Point(obstacle), this.state.selectedTileType);
-    if (hexagon.grid.contains(this.state, obstacle.x, obstacle.y)) {
+    if (hexagon.grid.contains(this.state.width, this.state.height, obstacle.x, obstacle.y)) {
       this.tilesHistory.push(this.state.tiles);
       this.setState({tiles: newTiles});
     }

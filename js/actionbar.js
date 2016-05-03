@@ -10,7 +10,7 @@ const Point = Immutable.Record({x: 0, y: 0});
 function gridToJson (grid) {
   const valueGrid = Object.assign({}, grid);
   const data = [];
-  for (let coord of hexagon.grid.allCoords(grid)) {
+  for (let coord of hexagon.grid.allCoords(grid.width, grid.height)) {
     data.push(grid.tiles.get(new Point(coord)));
   }
   valueGrid.tiles = data;
@@ -21,7 +21,7 @@ function gridFromJson (json) {
   const grid = JSON.parse(json);
   const tiles = Immutable.Map().withMutations(map => {
     let i = 0;
-    for (let coord of hexagon.grid.allCoords({width: grid.width, height: grid.height})) {
+    for (let coord of hexagon.grid.allCoords(grid.width, grid.height)) {
       if (grid.tiles[i] !== null) {
         map.set(new Point(coord), grid.tiles[i]);
       }

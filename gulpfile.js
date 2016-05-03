@@ -16,6 +16,17 @@ gulp.task('js', function() {
     .pipe(gulp.dest('dist'));
 });
 
+gulp.task('tests', function() {
+    return browserify({
+      debug: true,
+      entries: ['tests.js'],
+    })
+    .bundle()
+    .on('error', function (err) { console.error(err); })
+    .pipe(source('tests.js'))
+    .pipe(gulp.dest('dist'));
+});
+
 gulp.task('default', ['js'], function (done) {
   http.createServer(
     st({ index: 'hex.html', cache: false, path: './' })
