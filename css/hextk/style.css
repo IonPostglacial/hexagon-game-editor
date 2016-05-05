@@ -273,7 +273,7 @@ fieldset .btn:last-child, .btn-group .btn:last-child {
 }
 
 .popover li > .menu-entry {
-  color: var(--main-text-color);
+  color: var(--text-area-text-color);
   display: table-cell;
   white-space: nowrap;
   text-decoration: none;

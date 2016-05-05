@@ -7,13 +7,12 @@ const hexagon    = require('../lib/hexagon');
 const R = React.DOM;
 const Point = Immutable.Record({x: 0, y: 0});
 
-function gridToJson (grid) {
-  const valueGrid = Object.assign({}, grid);
+function gridToJson ({width, height, radius, tiles}) {
   const data = [];
-  for (let coord of hexagon.grid.allCoords(grid.width, grid.height)) {
-    data.push(grid.tiles.get(new Point(coord)));
+  const valueGrid = {width, height, radius, tiles: data};
+  for (let coord of hexagon.grid.allCoords(width, height)) {
+    data.push(tiles.get(new Point(coord)));
   }
-  valueGrid.tiles = data;
   return JSON.stringify(valueGrid);
 }
 

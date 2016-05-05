@@ -3,9 +3,9 @@ body {
 }
 
 .scene {
-  background-color: #DDD;
   box-shadow: inset 0px 0px 4px 0px #444;
   overflow-y: scroll;
+  background-color: #ddd;
 }
 
 .layers {
