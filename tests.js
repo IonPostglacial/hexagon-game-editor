@@ -33,15 +33,15 @@ const $ = document.querySelector.bind(document);
       facets.set(e, Position, {x: pos.x + mov.x * delta, y: pos.y + mov.y * delta});
     }
   };
-  const stage = ECS.createStage([MovementProcessor], [
+  const world = ECS.createWorld([MovementProcessor], [
     [
       Position, {x: 0, y: 0},
       Movement, {x: 1, y: 0}
     ]
   ]);
-  stage.step(1);
-  stage.step(1);
-  stage.step(1);
+  world.step(1);
+  world.step(1);
+  world.step(1);
   QUnit.test("Test ECS", assert => {
     assert.deepEqual(successivePositions, [{x: 0, y: 0}, {x: 1, y: 0}, {x: 2, y: 0}]);
   });
