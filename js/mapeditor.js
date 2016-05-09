@@ -63,6 +63,7 @@ module.exports = React.createClass({displayName: 'MapEditor',
   },
   handleSceneChange (e) {
     const { width, height, radius, tiles } = e.scene;
+    this.gridHistory.push(this.state.grid);
     this.setState({grid: this.state.grid.withMutations(newGrid =>
       newGrid.set('width', width).set('height', height).set('radius', radius).set('tiles', tiles)
     )});
@@ -73,9 +74,11 @@ module.exports = React.createClass({displayName: 'MapEditor',
         React.createElement(ActionBar, {onSceneChange: this.handleSceneChange,
           grid: this.state.grid}),
         R.div({className: 'scene'},
-          React.createElement(MultiLayerCanvas, {onMouseMove: this.handleMouseMove, onClick: this.handleClick,
-            width: this.state.grid.width, height: this.state.grid.height, radius: this.state.grid.radius, tiles: this.state.grid.tiles,
-            selectedTile: this.state.cursorHexCoords, selectedTileType: this.state.selectedTileType})
+          React.createElement(MultiLayerCanvas, {
+            onMouseMove: this.handleMouseMove, onClick: this.handleClick,
+            selectedTile: this.state.cursorHexCoords, selectedTileType: this.state.selectedTileType,
+            grid: this.state.grid
+          })
         ),
         React.createElement(MultiValueButton, {onChange: e => this.setState({selectedTileType: e.value}), data: Tile.types},
           Tile.types.map(type => React.createElement(ButtonValue, Object.assign(type, {key: type.label})))

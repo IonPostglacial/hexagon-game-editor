@@ -17,6 +17,7 @@ const $ = document.querySelector.bind(document);
     rightNumberCoords(evenGrid);
   });
 })();
+
 (function testECS () {
   const {Position, Movement, Drawable} = ECS.createFacetTypes({
     Position: {x: 0, y: 0},
@@ -26,7 +27,7 @@ const $ = document.querySelector.bind(document);
   const successivePositions = [];
   const MovementProcessor = {
     needs: [Position, Movement],
-    update (facets, e, delta) {
+    step (facets, e, delta) {
       const pos = facets.get(e, Position);
       const mov = facets.get(e, Movement);
       successivePositions.push(pos);
