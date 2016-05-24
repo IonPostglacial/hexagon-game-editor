@@ -1,11 +1,20 @@
+:root {
+  --tool-box-size: 42px;
+}
+
 body {
   margin: 0px;
+}
+
+.tool-box {
+  height: var(--tool-box-size);
 }
 
 .scene {
   box-shadow: inset 0px 0px 4px 0px #444;
   overflow-y: scroll;
   background-color: #ddd;
+  height: calc(100vh - 2 * var(--tool-box-size) - var(--default-margin));
 }
 
 .layers {
