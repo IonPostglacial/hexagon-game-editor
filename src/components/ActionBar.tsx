@@ -41,9 +41,9 @@ const ActionBar: React.FC<ActionBarProps> = ({ grid, onSceneChange }) => {
 
   useEffect(() => {
     const uploaded = Object.assign(document.createElement('input'), { type: 'file', style: 'display:none' });
-    uploaded.onchange = (e: Event) => {
+    uploaded.onchange = () => {
       const READER = new FileReader();
-      READER.onload = (e) => {
+      READER.onload = () => {
         if (READER.result) {
           onSceneChange({ scene: gridFromJson(READER.result as string) });
         }

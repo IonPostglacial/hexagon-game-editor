@@ -24,7 +24,7 @@ interface MapEditorProps {
 }
 
 export default function MapEditor({ initialWidth, initialHeight, initialRadius }: MapEditorProps) {
-  const [cursorPixCoords, setCursorPixCoords] = useState<PointType>(new Point({ x: 0, y: 0 }));
+  const [_cursorPixCoords, setCursorPixCoords] = useState<PointType>(new Point({ x: 0, y: 0 }));
   const [cursorHexCoords, setCursorHexCoords] = useState<PointType>(new Point({ x: 0, y: 0 }));
   const [selectedTileType, setSelectedTileType] = useState<number>(0);
   const [grid, setGrid] = useState<GridType>(
@@ -95,10 +95,7 @@ export default function MapEditor({ initialWidth, initialHeight, initialRadius }
           grid={grid}
         />
       </div>
-      <MultiValueButton
-        onChange={(e: { value: number }) => setSelectedTileType(e.value)}
-        data={Tile.types}
-      >
+      <MultiValueButton onChange={(e: { value: number }) => setSelectedTileType(e.value)}>
         {Tile.types.map((type) => (
           <ButtonValue {...type} key={type.label} />
         ))}
